@@ -1,102 +1,67 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="entain-dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tokenisation Phase 2.1 — Project Dashboard | Entain Gaming</title>
+<link rel="stylesheet" href="entain-corporate.css">
 <style>
-  /* ── Entain Dark Mode Brand Tokens ── */
+  /* ── Dashboard-specific overrides on top of entain-corporate.css ── */
+
+  /* Dark page base */
+  body {
+    background: #0a0a0a;
+    color: #ffffff;
+  }
+
+  /* Gantt bar colours */
   :root {
-    /* Brand */
-    --entain-purple:     #3D1152;
-    --entain-purple-mid: #5C2D82;
-    --entain-purple-lt:  #7B4FA6;
-    --entain-green:      #00C853;
-    --entain-green-dk:   #00A040;
-    --entain-lime:       #C6F135;
-
-    /* Dark mode surfaces */
-    --bg-page:    #0E0A14;
-    --bg-surface: #1A1225;
-    --bg-card:    #221830;
-    --bg-card-alt:#2A1E3A;
-    --bg-hover:   #32264A;
-    --border:     #3A2A52;
-    --border-lt:  #2E2040;
-
-    /* Text */
-    --text-primary:   #F0EBF8;
-    --text-secondary: #B8A8D0;
-    --text-muted:     #7A6A90;
-    --text-on-dark:   #FFFFFF;
-
-    /* Status — vivid enough to pop on dark */
-    --status-green:  #00E676;
-    --status-amber:  #FFB300;
-    --status-red:    #FF5252;
-    --status-blue:   #448AFF;
-    --status-grey:   #90A4AE;
-
-    /* Gantt bars */
     --bar-dev:        #43A047;
     --bar-int:        #5C6BC0;
     --bar-flex:       #F9A825;
     --bar-analysis:   #EF6C00;
-    --bar-signoff:    #E57373;
     --bar-regression: #26A69A;
-    --bar-demo:       #78909C;
     --bar-uat:        #00ACC1;
     --bar-release:    #1E88E5;
+    --bar-blocked:    repeating-linear-gradient(45deg,#EF6C00,#EF6C00 4px,#2A1800 4px,#2A1800 8px);
+
+    /* Dark surfaces */
+    --bg-card:    #111118;
+    --bg-card-alt:#1a1a2e;
+    --bg-hover:   rgba(191,0,255,0.08);
+    --border:     #2a2a3e;
+    --border-lt:  #1e1e30;
+
+    /* Text */
+    --text-primary:   #f0f0f0;
+    --text-secondary: #aaaacc;
+    --text-muted:     #666688;
+
+    /* Status */
+    --status-green:  #00E676;
+    --status-amber:  #FFB300;
+    --status-red:    #FF5252;
+    --status-blue:   #448AFF;
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  /* ── Layout ── */
+  .main { padding: 24px 32px; }
+  .section { margin-bottom: 28px; }
 
-  body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: var(--bg-page);
-    color: var(--text-primary);
-    font-size: 13px;
-    line-height: 1.5;
-  }
-
-  /* ── Header ── */
-  .header {
-    background: linear-gradient(135deg, #1A0A2E 0%, #2D1050 50%, #3D1152 100%);
-    border-bottom: 2px solid var(--entain-lime);
-    color: var(--text-on-dark);
-    padding: 24px 32px 20px;
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 16px;
-  }
-  .header-left h1 {
-    font-size: 22px;
-    font-weight: 700;
-    letter-spacing: -0.3px;
-    margin-bottom: 4px;
-    color: #FFFFFF;
-  }
-  .header-left h1 span { color: var(--entain-lime); }
-  .header-left p { font-size: 12px; color: var(--text-secondary); }
-  .header-right { text-align: right; flex-shrink: 0; }
-  .header-right .badge {
-    display: inline-block;
-    background: var(--entain-green);
-    color: #0E0A14;
-    font-weight: 700;
+  .section-title {
     font-size: 11px;
-    padding: 4px 12px;
-    border-radius: 20px;
-    letter-spacing: 0.5px;
-    margin-bottom: 6px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--entain-purple);
+    border-left: 4px solid var(--entain-purple);
+    padding-left: 10px;
+    margin-bottom: 14px;
   }
-  .header-right .badge.amber { background: var(--status-amber); color: #0E0A14; }
-  .header-right p { font-size: 11px; color: var(--text-secondary); }
 
-  /* ── Nav Tabs ── */
+  /* ── Tabs ── */
   .tabs {
-    background: #150D22;
+    background: #0a0a0a;
     display: flex;
     gap: 2px;
     padding: 0 32px;
@@ -105,7 +70,7 @@
   .tab {
     padding: 10px 18px;
     color: var(--text-muted);
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 600;
     cursor: pointer;
     border-bottom: 3px solid transparent;
@@ -115,21 +80,7 @@
     letter-spacing: 0.5px;
   }
   .tab:hover { color: var(--text-primary); }
-  .tab.active { color: var(--entain-lime); border-bottom-color: var(--entain-lime); }
-
-  /* ── Main Layout ── */
-  .main { padding: 24px 32px; }
-  .section { margin-bottom: 28px; }
-  .section-title {
-    font-size: 13px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    color: var(--entain-lime);
-    border-left: 4px solid var(--entain-lime);
-    padding-left: 10px;
-    margin-bottom: 14px;
-  }
+  .tab.active { color: var(--entain-purple); border-bottom-color: var(--entain-purple); }
 
   /* ── KPI Cards ── */
   .kpi-grid {
@@ -142,21 +93,21 @@
     background: var(--bg-card);
     border-radius: 8px;
     padding: 16px;
-    border-top: 4px solid var(--entain-purple-mid);
     border: 1px solid var(--border);
-    border-top: 4px solid var(--entain-purple-mid);
+    border-top: 4px solid var(--entain-dark-purple);
   }
   .kpi-card.green  { border-top-color: var(--status-green); }
   .kpi-card.amber  { border-top-color: var(--status-amber); }
   .kpi-card.red    { border-top-color: var(--status-red); }
   .kpi-card.blue   { border-top-color: var(--status-blue); }
-  .kpi-card.lime   { border-top-color: var(--entain-lime); }
+  .kpi-card.purple { border-top-color: var(--entain-purple); }
+  .kpi-card.pink   { border-top-color: #ff006e; }
   .kpi-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text-muted); margin-bottom: 6px; }
-  .kpi-value { font-size: 26px; font-weight: 700; color: var(--text-primary); line-height: 1; }
+  .kpi-value { font-size: 26px; font-weight: 800; color: #ffffff; line-height: 1; }
   .kpi-sub   { font-size: 11px; color: var(--text-secondary); margin-top: 4px; }
 
-  /* ── Two-col layout ── */
-  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  /* ── Two/Three col ── */
+  .two-col   { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
 
   /* ── Cards ── */
@@ -167,11 +118,11 @@
     border: 1px solid var(--border);
   }
   .card-title {
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    color: var(--entain-lime);
+    color: var(--entain-purple);
     margin-bottom: 12px;
     padding-bottom: 8px;
     border-bottom: 1px solid var(--border);
@@ -180,15 +131,15 @@
   /* ── Tables ── */
   table { width: 100%; border-collapse: collapse; font-size: 12px; }
   th {
-    background: #1A0A2E;
-    color: var(--entain-lime);
+    background: #0a0a0a;
+    color: var(--entain-purple);
     padding: 8px 10px;
     text-align: left;
     font-weight: 600;
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.4px;
-    border-bottom: 1px solid var(--border);
+    border-bottom: 2px solid var(--entain-purple);
   }
   td {
     padding: 7px 10px;
@@ -200,11 +151,11 @@
   tr:nth-child(even) td { background: var(--bg-card-alt); }
   tr:hover td { background: var(--bg-hover); }
 
-  /* ── Status Pills — dark-mode safe (dark bg, bright text) ── */
+  /* ── Status Pills ── */
   .pill {
     display: inline-block;
     padding: 2px 9px;
-    border-radius: 12px;
+    border-radius: 100px;
     font-size: 10px;
     font-weight: 700;
     text-transform: uppercase;
@@ -216,9 +167,9 @@
   .pill-red    { background: #3D0A0A; color: #FF5252; border: 1px solid #E53935; }
   .pill-blue   { background: #0A1F3D; color: #82B1FF; border: 1px solid #448AFF; }
   .pill-grey   { background: #1A2228; color: #90A4AE; border: 1px solid #546E7A; }
-  .pill-purple { background: #1E0A3D; color: #CE93D8; border: 1px solid #7B4FA6; }
+  .pill-purple { background: rgba(191,0,255,0.12); color: #d966ff; border: 1px solid rgba(191,0,255,0.3); }
 
-  /* ── Risk severity ── */
+  /* ── Severity ── */
   .sev-high   { color: #FF5252; font-weight: 700; }
   .sev-medium { color: #FFB300; font-weight: 700; }
   .sev-low    { color: #00E676; font-weight: 700; }
@@ -226,11 +177,12 @@
   /* ── GANTT ── */
   .gantt-wrap { overflow-x: auto; }
   .gantt-table { min-width: 1100px; }
-  .gantt-table th { font-size: 10px; padding: 6px 4px; text-align: center; background: #1A0A2E; color: var(--entain-lime); }
+  .gantt-table th { font-size: 10px; padding: 6px 4px; text-align: center; background: #0a0a0a; color: var(--entain-purple); border-bottom: 2px solid var(--entain-purple); }
   .gantt-table td { padding: 4px 6px; font-size: 11px; color: var(--text-primary); }
-  .gantt-table td.label { font-weight: 600; white-space: nowrap; min-width: 180px; color: var(--text-primary); }
+  .gantt-table td.label { font-weight: 600; white-space: nowrap; min-width: 180px; }
   .gantt-table td.sub-label { padding-left: 20px; color: var(--text-secondary); font-style: italic; }
-  .gantt-table tr.group-row td { background: #1A0A2E; color: var(--entain-lime); font-weight: 700; font-size: 11px; border-bottom: 1px solid var(--border); }
+  .gantt-table tr.group-row td { background: #0a0a0a; color: var(--entain-purple); font-weight: 700; font-size: 11px; border-bottom: 1px solid var(--border); }
+  .gate-col { background: rgba(255,82,82,0.04); border-left: 2px dashed rgba(255,82,82,0.4) !important; }
 
   .bar-cell { position: relative; height: 22px; }
   .bar {
@@ -243,113 +195,54 @@
     padding: 0 6px;
     font-size: 9px;
     font-weight: 700;
-    color: #FFFFFF;
+    color: #fff;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     text-shadow: 0 1px 2px rgba(0,0,0,0.6);
   }
-  .bar-dev      { background: var(--bar-dev); }
-  .bar-int      { background: var(--bar-int); }
-  .bar-analysis { background: var(--bar-analysis); }
-  .bar-flex     { background: var(--bar-flex); color: #1A0A2E; text-shadow: none; border: 1px solid #B8860B; }
-  .bar-uat      { background: var(--bar-uat); color: #0A1A1F; text-shadow: none; }
-  .bar-release  { background: var(--bar-release); }
-  .bar-demo     { background: var(--bar-demo); color: #1A2228; text-shadow: none; }
-  .bar-regression { background: var(--bar-regression); color: #0A1F1E; text-shadow: none; }
-  .bar-blocked  { background: repeating-linear-gradient(45deg, #EF6C00, #EF6C00 4px, #2A1800 4px, #2A1800 8px); color: #FFFFFF; border: 1px solid #EF6C00; text-shadow: 1px 1px 3px rgba(0,0,0,0.9); font-weight: 700; }
+  .bar-dev        { background: #43A047; }
+  .bar-int        { background: #5C6BC0; }
+  .bar-analysis   { background: #EF6C00; }
+  .bar-flex       { background: #F9A825; color: #1a0a00; text-shadow: none; border: 1px solid #B8860B; }
+  .bar-uat        { background: #00ACC1; color: #0A1A1F; text-shadow: none; }
+  .bar-release    { background: #1E88E5; }
+  .bar-regression { background: #26A69A; color: #0A1F1E; text-shadow: none; }
+  .bar-blocked    { background: repeating-linear-gradient(45deg,#EF6C00,#EF6C00 4px,#2A1800 4px,#2A1800 8px); color: #fff; border: 1px solid #EF6C00; text-shadow: 1px 1px 3px rgba(0,0,0,0.9); font-weight: 700; }
 
-  /* Gate marker */
-  .gate-col { background: rgba(255,82,82,0.06); border-left: 2px dashed rgba(255,82,82,0.5) !important; }
-
-  /* ── Progress bar ── */
+  /* ── Progress ── */
   .progress-wrap { background: var(--border); border-radius: 4px; height: 8px; overflow: hidden; margin-top: 4px; }
-  .progress-fill { height: 100%; border-radius: 4px; background: var(--status-green); }
+  .progress-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--entain-purple), var(--entain-dark-purple)); }
   .progress-fill.amber { background: var(--status-amber); }
   .progress-fill.red   { background: var(--status-red); }
 
-  /* ── Action items ── */
-  .action-item {
-    display: flex;
-    gap: 10px;
-    padding: 8px 0;
-    border-bottom: 1px solid var(--border-lt);
-    align-items: flex-start;
-  }
+  /* ── Actions ── */
+  .action-item { display: flex; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border-lt); align-items: flex-start; }
   .action-item:last-child { border-bottom: none; }
-  .action-num {
-    background: var(--entain-purple-mid);
-    color: white;
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 10px;
-    font-weight: 700;
-    flex-shrink: 0;
-    margin-top: 1px;
-  }
+  .action-num { background: var(--entain-purple); color: white; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
   .action-text { flex: 1; color: var(--text-primary); }
   .action-owner { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
 
-  /* ── Assumption / Decision items ── */
+  /* ── Lists ── */
   .item-list { list-style: none; }
-  .item-list li {
-    padding: 7px 0 7px 14px;
-    border-bottom: 1px solid var(--border-lt);
-    position: relative;
-    font-size: 12px;
-    color: var(--text-primary);
-  }
+  .item-list li { padding: 7px 0 7px 14px; border-bottom: 1px solid var(--border-lt); position: relative; font-size: 12px; color: var(--text-primary); }
   .item-list li:last-child { border-bottom: none; }
-  .item-list li::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 14px;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--entain-lime);
-  }
+  .item-list li::before { content: ''; position: absolute; left: 0; top: 14px; width: 6px; height: 6px; border-radius: 50%; background: var(--entain-purple); }
 
   /* ── Legend ── */
   .legend { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
   .legend-item { display: flex; align-items: center; gap: 5px; font-size: 10px; color: var(--text-secondary); }
   .legend-dot { width: 12px; height: 12px; border-radius: 2px; flex-shrink: 0; }
 
-  /* ── Footer ── */
-  .footer {
-    background: #0A0614;
-    border-top: 2px solid var(--border);
-    color: var(--text-muted);
-    text-align: center;
-    padding: 14px;
-    font-size: 11px;
-    margin-top: 32px;
-  }
-  .footer span { color: var(--entain-lime); font-weight: 600; }
-
-  /* ── Inline stat boxes (portfolio section) ── */
-  .stat-box {
-    background: var(--bg-card-alt);
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    padding: 10px 16px;
-    text-align: center;
-  }
-  .stat-box .stat-val { font-size: 22px; font-weight: 700; }
+  /* ── Stat boxes ── */
+  .stat-box { background: var(--bg-card-alt); border: 1px solid var(--border); border-radius: 6px; padding: 10px 16px; text-align: center; }
+  .stat-box .stat-val { font-size: 22px; font-weight: 800; }
   .stat-box .stat-lbl { font-size: 10px; color: var(--text-muted); text-transform: uppercase; }
 
   /* ── Responsive ── */
   @media (max-width: 900px) {
     .two-col, .three-col { grid-template-columns: 1fr; }
-    .header { flex-direction: column; }
   }
-
-  /* ── Print ── */
   @media print {
     body { background: white; color: black; }
     .tabs { display: none; }
@@ -357,33 +250,40 @@
   }
 </style>
 </head>
-<body>
+<body class="entain-dark">
 
 <!-- ══════════════════════════════════════════════
      HEADER
 ══════════════════════════════════════════════ -->
-<div class="header">
-  <div class="header-left">
-    <h1>Tokenisation Phase 2.1 — <span>Gaming &amp; In-Game Dashboard</span></h1>
-    <p>BetMGM US · Casino Integrations (GIS) &amp; In-Game (GAMP) Workstreams · Last Updated: 1 May 2026</p>
-    <p style="margin-top:6px;font-size:11px;opacity:0.6;">Source: CI Tokenisation Project Summary · GAMP-12541 · Casino Journey Sync email chain · Sprint estimate doc</p>
-  </div>
-  <div class="header-right">
-    <div class="badge amber">⚠ AT RISK</div>
-    <p>Overall Project Status</p>
-    <p style="margin-top:4px;">Target Release: <strong style="color:#C6F135;">Oct 2026 (S21)</strong></p>
+<div class="entain-header">
+  <div class="entain-header__inner">
+    <div class="entain-header__content">
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:12px;">
+        <img src="entain-symbol-purple.png" alt="Entain" style="height:48px;width:auto;filter:brightness(0) invert(1);">
+        <div>
+          <h1 class="entain-header__title">Tokenisation Phase 2.1 <span style="color:var(--entain-purple);">—</span> Gaming &amp; In-Game Dashboard</h1>
+          <p class="entain-header__subtitle">BetMGM US · Casino Integrations (GIS — GAMC) &amp; In-Game (GAMP) Workstreams · Last Updated: 1 May 2026</p>
+        </div>
+      </div>
+      <p style="font-size:11px;color:#666;margin:0;">Source: CI Tokenisation Project Summary · GAMP-12541 · Casino Journey Sync · Sprint estimate doc</p>
+    </div>
+    <div style="text-align:right;flex-shrink:0;">
+      <span class="entain-badge entain-badge--staging" style="background:#ca5010;font-size:12px;padding:6px 16px;margin-bottom:8px;display:inline-block;">⚠ AT RISK</span>
+      <p style="color:#aaa;font-size:12px;margin:4px 0 0;">Target Release: <strong style="color:var(--entain-purple);font-size:14px;">Oct 2026 (S21)</strong></p>
+    </div>
   </div>
 </div>
 
 <!-- ══════════════════════════════════════════════
-     TABS (decorative — all content shown)
+     TABS
 ══════════════════════════════════════════════ -->
 <div class="tabs">
-  <div class="tab active">Overview</div>
-  <div class="tab">GANTT</div>
-  <div class="tab">Risks &amp; Issues</div>
-  <div class="tab">Dependencies</div>
-  <div class="tab">Actions</div>
+  <div class="tab active" onclick="showTab('overview')">Overview</div>
+  <div class="tab" onclick="showTab('gantt')">GANTT</div>
+  <div class="tab" onclick="showTab('risks')">Risks &amp; Issues</div>
+  <div class="tab" onclick="showTab('dependencies')">Dependencies</div>
+  <div class="tab" onclick="showTab('actions')">Actions</div>
+  <div class="tab" onclick="showTab('competing')" style="color:var(--entain-pink);">⚡ Competing Priorities</div>
 </div>
 
 <div class="main">
@@ -391,6 +291,7 @@
 <!-- ══════════════════════════════════════════════
      KPI SUMMARY ROW
 ══════════════════════════════════════════════ -->
+<div data-tab="overview">
 <div class="kpi-grid">
   <div class="kpi-card green">
     <div class="kpi-label">In-Game Stories Closed</div>
@@ -419,12 +320,12 @@
     <div class="kpi-value">5</div>
     <div class="kpi-sub">2 overdue (24–25 Apr)</div>
   </div>
-  <div class="kpi-card red">
+  <div class="kpi-card pink">
     <div class="kpi-label">Unresolved Design Decisions</div>
     <div class="kpi-value">4</div>
     <div class="kpi-sub">Blocking dev start</div>
   </div>
-  <div class="kpi-card amber">
+  <div class="kpi-card pink">
     <div class="kpi-label">BetMGM Sign-Off</div>
     <div class="kpi-value">Partial</div>
     <div class="kpi-sub">Written UX sign-off outstanding</div>
@@ -524,11 +425,12 @@
     </table>
   </div>
 </div>
-
+</div><!-- end data-tab="overview" -->
 
 <!-- ══════════════════════════════════════════════
      REVISED GANTT CHART — CORRECTED DEPENDENCY SEQUENCING
 ══════════════════════════════════════════════ -->
+<div data-tab="gantt" style="display:none;">
 <div class="section">
   <div class="section-title">Revised GANTT — Tokenisation Phase 2.1 (Corrected Dependency Chain)</div>
   <div class="card">
@@ -767,9 +669,12 @@
     </div>
   </div>
 </div>
+</div><!-- end data-tab="gantt" -->
+
 <!-- ══════════════════════════════════════════════
      RISKS & ISSUES
 ══════════════════════════════════════════════ -->
+<div data-tab="risks" style="display:none;">
 <div class="section">
   <div class="section-title">Risks, Issues &amp; Impact to Gaming Portfolio</div>
   <div class="card">
@@ -964,12 +869,12 @@
     </table>
   </div>
 </div>
-
-<!-- DEPENDENCIES, ACTIONS, ASSUMPTIONS, DECISIONS PARTIAL -->
+</div><!-- end data-tab="risks" -->
 
 <!-- ══════════════════════════════════════════════
      DEPENDENCIES
 ══════════════════════════════════════════════ -->
+<div data-tab="dependencies" style="display:none;">
 <div class="section">
   <div class="section-title">Key Dependencies</div>
   <div class="card">
@@ -1037,10 +942,12 @@
     </table>
   </div>
 </div>
+</div><!-- end data-tab="dependencies" -->
 
 <!-- ══════════════════════════════════════════════
      OPEN ACTIONS
 ══════════════════════════════════════════════ -->
+<div data-tab="actions" style="display:none;">
 <div class="section">
   <div class="section-title">Open Actions</div>
   <div class="two-col">
@@ -1294,17 +1201,419 @@
     </div>
   </div>
 </div>
+</div><!-- end data-tab="actions" -->
+
+<!-- ══════════════════════════════════════════════
+     COMPETING PRIORITIES
+══════════════════════════════════════════════ -->
+<div data-tab="competing" style="display:none;">
+<div class="section">
+<div class="section-title">⚡ Competing Priorities — GAMP Active Epics by Team</div>
+<p style="font-size:11px;color:#888;margin-bottom:16px;">Active epics in-flight across GAMP competing for the same engineering resource as Tokenisation Phase 2.1. Source: Jira GAMP · Pulled: 1 May 2026 · Active only · Grouped by team in priority order. Delivery dates shown only where confirmed in Jira.</p>
+<div class="card" style="margin-bottom:16px;border-top:4px solid #bf00ff;">
+    <div class="card-title" style="color:#bf00ff;">1. LE1 — Lobby Experience Squad 1 · Vemula Madhavan · Casino 2.0 / Search / Game Overlay / Mission</div>
+    <table>
+      <thead><tr><th style="width:90px;">Epic</th><th>Summary / Assignee</th><th>Description</th><th>Status</th><th>Priority</th></tr></thead>
+      <tbody><tr>
+      <td style="white-space:nowrap;">—</td>
+      <td><strong style="font-size:12px;">Coin Missions — MVP (Ladbrokes)</strong><br><small style="color:#888;">Vemula Madhavan · Priyadarshi Das (Confluence author)</small></td>
+      <td style="font-size:11px;color:#aaa;">Engagement growth engine for Ladbrokes using LadBucks. Three mission types: On-Boarding (one-time, e.g. First Deposit, Welcome Offer Journey, Download &amp; Play), Weekly (recurring Mon–Sun, e.g. Deposit &amp; Play, Instant Spins, New Game), and Collector (always-on milestone). 5 on-boarding + 9 weekly missions in MVP. Gaming team dependency for in-game surfacing. No Jira epic created yet — tracked in Confluence.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#0A1F3D;color:#82B1FF;border:1px solid #448AFF;">Implementation</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#3D2800;color:#FFB300;border:1px solid #FF8F00;">High</span></td>
+      
+    </tr><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-19419" style="color:#bf00ff;">GAMP-19419</a></td>
+      <td><strong style="font-size:12px;">Casino 2.0 — Feature Migration (LE1)</strong><br><small style="color:#888;">Vemula Madhavan</small></td>
+      <td style="font-size:11px;color:#aaa;">Migration of casino lobby features to new Casino 2.0 frontend package. EZ Nav V3, search, jackpot widgets, favourites, responsible gaming.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#0A1F3D;color:#82B1FF;border:1px solid #448AFF;">Evaluation</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#3D2800;color:#FFB300;border:1px solid #FF8F00;">High</span></td>
+      
+    </tr><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-11716" style="color:#bf00ff;">GAMP-11716</a></td>
+      <td><strong style="font-size:12px;">Search Revamp — Opti-X Integration</strong><br><small style="color:#888;">Vemula Madhavan</small></td>
+      <td style="font-size:11px;color:#aaa;">Integrate Opti-X search for fast, accurate casino game discovery. Real-time search, autocorrect, personalisation, alias mapping.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#0A1F3D;color:#82B1FF;border:1px solid #448AFF;">Implementation</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#1A2228;color:#90A4AE;border:1px solid #546E7A;">Medium</span></td>
+      
+    </tr><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-12583" style="color:#bf00ff;">GAMP-12583</a></td>
+      <td><strong style="font-size:12px;">Game Overlay Launch — Rollout (All Brands)</strong><br><small style="color:#888;">Vemula Madhavan</small></td>
+      <td style="font-size:11px;color:#aaa;">Changing game launch from new page to overlay. Addresses memory crashes on low-storage devices. On Hold pending prioritisation.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#3D2800;color:#FFB300;border:1px solid #FF8F00;">On Hold</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#3D0A0A;color:#FF5252;border:1px solid #E53935;">Highest</span></td>
+      
+    </tr></tbody>
+    </table>
+  </div><div class="card" style="margin-bottom:16px;border-top:4px solid #7b3fbf;">
+    <div class="card-title" style="color:#7b3fbf;">2. LE2 — Lobby Experience Squad 2 · Joseph Senyah (EM) · EZNav / Speed &amp; Performance / SSR</div>
+    <table>
+      <thead><tr><th style="width:90px;">Epic</th><th>Summary / Assignee</th><th>Description</th><th>Status</th><th>Priority</th><th>Delivery</th></tr></thead>
+      <tbody><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-8338" style="color:#bf00ff;">GAMP-8338</a></td>
+      <td><strong style="font-size:12px;">EZNav Migration to Angular</strong><br><small style="color:#888;">Prabjeet Pahwa</small></td>
+      <td style="font-size:11px;color:#aaa;">Migrate EZNav codebase from JavaScript to Angular for improved maintainability and performance. RICE: 28.6.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#0A1F3D;color:#82B1FF;border:1px solid #448AFF;">Implementation</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#3D2800;color:#FFB300;border:1px solid #FF8F00;">High</span></td>
+      
+    </tr><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-21083" style="color:#bf00ff;">GAMP-21083</a></td>
+      <td><strong style="font-size:12px;">BetMGM Originals — Launch ON NJ PA WV</strong><br><small style="color:#888;">Joseph Senyah</small></td>
+      <td style="font-size:11px;color:#aaa;">Deliver BetMGM Originals to Ontario, New Jersey, Pennsylvania and West Virginia. World Cup change freeze 8–15 Jun.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#0A1F3D;color:#82B1FF;border:1px solid #448AFF;">Implementation</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#3D0A0A;color:#FF5252;border:1px solid #E53935;">Highest</span></td>
+      <td style="color:#FF5252;font-weight:700;white-space:nowrap;font-size:11px;">15 Jun 2026 🔴</td>
+    </tr><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-8049" style="color:#bf00ff;">GAMP-8049</a></td>
+      <td><strong style="font-size:12px;">SSR Phase 1 — Speed &amp; Performance</strong><br><small style="color:#888;">Joseph Senyah</small></td>
+      <td style="font-size:11px;color:#aaa;">Server-side rendering improvements — server performance, caching, JS bundle sizes, data fetching. Platform-wide initiative.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#0A1F3D;color:#82B1FF;border:1px solid #448AFF;">Implementation</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#3D0A0A;color:#FF5252;border:1px solid #E53935;">Urgent</span></td>
+      
+    </tr><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-13879" style="color:#bf00ff;">GAMP-13879</a></td>
+      <td><strong style="font-size:12px;">Casino SSR Enablement</strong><br><small style="color:#888;">Julian Jandl</small></td>
+      <td style="font-size:11px;color:#aaa;">Enabling SSR for Casino across all brands. Foundation for all performance improvements.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#0A1F3D;color:#82B1FF;border:1px solid #448AFF;">Evaluation</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#3D0A0A;color:#FF5252;border:1px solid #E53935;">Urgent</span></td>
+      
+    </tr><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-13881" style="color:#bf00ff;">GAMP-13881</a></td>
+      <td><strong style="font-size:12px;">Casino SSR Perf Improvements</strong><br><small style="color:#888;">Julian Jandl</small></td>
+      <td style="font-size:11px;color:#aaa;">Reduce client work during hydration, avoid unnecessary network requests.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#0A1F3D;color:#82B1FF;border:1px solid #448AFF;">Evaluation</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#3D0A0A;color:#FF5252;border:1px solid #E53935;">Urgent</span></td>
+      
+    </tr><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-17973" style="color:#bf00ff;">GAMP-17973</a></td>
+      <td><strong style="font-size:12px;">SSR Performance Improvements</strong><br><small style="color:#888;">Julian Jandl</small></td>
+      <td style="font-size:11px;color:#aaa;">TransferCache config, hydration optimisations, incremental hydration, bundle size optimisation.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#1A2228;color:#90A4AE;border:1px solid #546E7A;">New</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#3D0A0A;color:#FF5252;border:1px solid #E53935;">Highest</span></td>
+      
+    </tr><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-17966" style="color:#bf00ff;">GAMP-17966</a></td>
+      <td><strong style="font-size:12px;">SSR Stability Improvements</strong><br><small style="color:#888;">Julian Jandl</small></td>
+      <td style="font-size:11px;color:#aaa;">Hydration consistency, CSS loading, auth vs unauth state handling, geo-location rendering.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#1A2228;color:#90A4AE;border:1px solid #546E7A;">New</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#3D0A0A;color:#FF5252;border:1px solid #E53935;">Highest</span></td>
+      
+    </tr><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-17813" style="color:#bf00ff;">GAMP-17813</a></td>
+      <td><strong style="font-size:12px;">Memory Leak Refactorings for Casino</strong><br><small style="color:#888;">Prabjeet Pahwa ⚠ also on Tokenisation R5</small></td>
+      <td style="font-size:11px;color:#aaa;">Refactoring casino components to mitigate memory leaks — event listeners, subscriptions, lifecycle handling.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#0A1F3D;color:#82B1FF;border:1px solid #448AFF;">Evaluation</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#3D0A0A;color:#FF5252;border:1px solid #E53935;">Urgent</span></td>
+      
+    </tr><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-16275" style="color:#bf00ff;">GAMP-16275</a></td>
+      <td><strong style="font-size:12px;">Route Reuse: ~67% Less CPU</strong><br><small style="color:#888;">Joseph Senyah</small></td>
+      <td style="font-size:11px;color:#aaa;">Eliminates expensive page rebuilds on return navigation. ~67% less CPU, ~78% fewer UI freezes. On Hold.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#3D2800;color:#FFB300;border:1px solid #FF8F00;">On Hold</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#3D0A0A;color:#FF5252;border:1px solid #E53935;">Urgent</span></td>
+      
+    </tr></tbody>
+    </table>
+  </div><div class="card" style="margin-bottom:16px;border-top:4px solid #43268b;">
+    <div class="card-title" style="color:#43268b;">3. LE3 — Lobby Experience Squad 3 · Ajinkya Desai · Game Metadata / For You ASE / Lobby Engagement / Alberta</div>
+    <table>
+      <thead><tr><th style="width:90px;">Epic</th><th>Summary / Assignee</th><th>Description</th><th>Status</th><th>Priority</th></tr></thead>
+      <tbody><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-616" style="color:#bf00ff;">GAMP-616</a></td>
+      <td><strong style="font-size:12px;">Game Metadata Normalisation</strong><br><small style="color:#888;">Ajinkya Desai</small></td>
+      <td style="font-size:11px;color:#aaa;">Sanitising and normalising game metadata from Game Suppliers and Slot-catalog. Critical for personalisation, discovery, analytics. RICE: 257.5.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#0A1F3D;color:#82B1FF;border:1px solid #448AFF;">Implementation</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#3D0A0A;color:#FF5252;border:1px solid #E53935;">Highest</span></td>
+      
+    </tr><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-18931" style="color:#bf00ff;">GAMP-18931</a></td>
+      <td><strong style="font-size:12px;">For You — Roll-out to ASE (All ASE labels)</strong><br><small style="color:#888;">Ajinkya Desai</small></td>
+      <td style="font-size:11px;color:#aaa;">Roll out personalised "For You" lobby to all ASE labels. Deeper OptiX integration, personalised offers, cross-sell modules. RICE: 66.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:rgba(191,0,255,0.12);color:#d966ff;border:1px solid rgba(191,0,255,0.3);">Discovery</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#1A2228;color:#90A4AE;border:1px solid #546E7A;">Unprioritised</span></td>
+      
+    </tr><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-2071" style="color:#bf00ff;">GAMP-2071</a></td>
+      <td><strong style="font-size:12px;">Lobby Engagement Widget</strong><br><small style="color:#888;">Ajinkya Desai</small></td>
+      <td style="font-size:11px;color:#aaa;">Surface engagement tools (Spin the Wheel, Pick a Box, PAPI tools) in casino lobby. Configurable widgets showing free spins, promo name, expiry, plays left.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#0A1F3D;color:#82B1FF;border:1px solid #448AFF;">Implementation</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#1A2228;color:#90A4AE;border:1px solid #546E7A;">Medium</span></td>
+      
+    </tr><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-18113" style="color:#bf00ff;">GAMP-18113</a></td>
+      <td><strong style="font-size:12px;">Alberta — 3 New White Labels Preparation (PF2)</strong><br><small style="color:#888;">Shubhangee Nath</small></td>
+      <td style="font-size:11px;color:#aaa;">Alberta regulated market launch — BetMGM Alberta, SportsInteraction Alberta, PartyCasino Alberta. Recently Played, Favourites, CFP/CNC services. RICE: 140.6.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#0A1F3D;color:#82B1FF;border:1px solid #448AFF;">Implementation</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#3D2800;color:#FFB300;border:1px solid #FF8F00;">High</span></td>
+      
+    </tr></tbody>
+    </table>
+  </div><div class="card" style="margin-bottom:16px;border-top:4px solid #1E88E5;">
+    <div class="card-title" style="color:#1E88E5;">4. X-Sell — Korada Dhyanesh · Quick Games Rollouts / Casino Sports Page</div>
+    <table>
+      <thead><tr><th style="width:90px;">Epic</th><th>Summary / Assignee</th><th>Description</th><th>Status</th><th>Priority</th><th>Delivery</th></tr></thead>
+      <tbody><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-18430" style="color:#bf00ff;">GAMP-18430</a></td>
+      <td><strong style="font-size:12px;">Alberta — X-Sell Features (BetMGM &amp; SportsInteraction)</strong><br><small style="color:#888;">Korada Dhyanesh</small></td>
+      <td style="font-size:11px;color:#aaa;">Enable Mini Games, Games You Might Like, Quick Games on Alberta labels. Mirrors Ontario feature set.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#0A1F3D;color:#82B1FF;border:1px solid #448AFF;">Implementation</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#3D0A0A;color:#FF5252;border:1px solid #E53935;">Highest</span></td>
+      <td style="color:#FF5252;font-weight:700;white-space:nowrap;font-size:11px;">May 2026 🟡</td>
+    </tr><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-17989" style="color:#bf00ff;">GAMP-17989</a></td>
+      <td><strong style="font-size:12px;">Quick Games — Web Games — Bwin Greece</strong><br><small style="color:#888;">Korada Dhyanesh</small></td>
+      <td style="font-size:11px;color:#aaa;">Extend Quick Games with web games to Bwin Greece market. Pre-loading default web game for fast launch.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#0A1F3D;color:#82B1FF;border:1px solid #448AFF;">Implementation</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#3D2800;color:#FFB300;border:1px solid #FF8F00;">High</span></td>
+      
+    </tr><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-17988" style="color:#bf00ff;">GAMP-17988</a></td>
+      <td><strong style="font-size:12px;">Quick Games — Web Games — BetMGM Ontario</strong><br><small style="color:#888;">Korada Dhyanesh</small></td>
+      <td style="font-size:11px;color:#aaa;">Extend Quick Games with web games to BetMGM Ontario. Same implementation as BetMGM US.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#1A2228;color:#90A4AE;border:1px solid #546E7A;">New</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#3D2800;color:#FFB300;border:1px solid #FF8F00;">High</span></td>
+      
+    </tr><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-17990" style="color:#bf00ff;">GAMP-17990</a></td>
+      <td><strong style="font-size:12px;">Casino Service API for Sports to Casino X-Sell</strong><br><small style="color:#888;">Korada Dhyanesh</small></td>
+      <td style="font-size:11px;color:#aaa;">Integrate Casino Feed Provider API to replace static casino content in GYML cross-sell module with dynamic, personalised content. RICE: 16.2.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:rgba(191,0,255,0.12);color:#d966ff;border:1px solid rgba(191,0,255,0.3);">Discovery</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#1A2228;color:#90A4AE;border:1px solid #546E7A;">Medium</span></td>
+      
+    </tr><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-20041" style="color:#bf00ff;">GAMP-20041</a></td>
+      <td><strong style="font-size:12px;">Deep Link Specific Game Launch from Marquee &amp; Banner</strong><br><small style="color:#888;">Korada Dhyanesh</small></td>
+      <td style="font-size:11px;color:#aaa;">Extend Slider Lobby to support deep linking — pass game variant name so specific game opens directly inside Slider Lobby.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#1A2228;color:#90A4AE;border:1px solid #546E7A;">New</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#1A2228;color:#90A4AE;border:1px solid #546E7A;">Medium</span></td>
+      
+    </tr></tbody>
+    </table>
+  </div><div class="card" style="margin-bottom:16px;border-top:4px solid #43A047;">
+    <div class="card-title" style="color:#43A047;">5. PF1 — Platform Feed Squad 1 · Calvin Kent · SBJ US &amp; ASE / Jackpot Enhancements / Tournament Abuse</div>
+    <table>
+      <thead><tr><th style="width:90px;">Epic</th><th>Summary / Assignee</th><th>Description</th><th>Status</th><th>Priority</th></tr></thead>
+      <tbody><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-20307" style="color:#bf00ff;">GAMP-20307</a></td>
+      <td><strong style="font-size:12px;">Sidebet Jackpot — Ontario</strong><br><small style="color:#888;">Calvin Kent</small></td>
+      <td style="font-size:11px;color:#aaa;">Deploy fully compliant SBJ system for Ontario — contribution tracking, jackpot pooling, trigger logic, payout distribution.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#0A1F3D;color:#82B1FF;border:1px solid #448AFF;">Implementation</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#3D2800;color:#FFB300;border:1px solid #FF8F00;">High</span></td>
+      
+    </tr><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-20306" style="color:#bf00ff;">GAMP-20306</a></td>
+      <td><strong style="font-size:12px;">Sidebet Jackpot — New Jersey (Regulated)</strong><br><small style="color:#888;">Calvin Kent</small></td>
+      <td style="font-size:11px;color:#aaa;">SBJ into New Jersey regulated iGaming market. Full DGE compliance. Increase session length and bet frequency.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#0A1F3D;color:#82B1FF;border:1px solid #448AFF;">Implementation</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#3D2800;color:#FFB300;border:1px solid #FF8F00;">High</span></td>
+      
+    </tr><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-18081" style="color:#bf00ff;">GAMP-18081</a></td>
+      <td><strong style="font-size:12px;">Alberta Label Jackpots Setup, Migration &amp; Validation</strong><br><small style="color:#888;">Calvin Kent</small></td>
+      <td style="font-size:11px;color:#aaa;">Ensure all jackpot functionality is fully operational for Alberta labels. Migrate jackpot configs from Ontario, validate backend services.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#0A1F3D;color:#82B1FF;border:1px solid #448AFF;">Accepted</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#3D2800;color:#FFB300;border:1px solid #FF8F00;">High</span></td>
+      
+    </tr><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-18027" style="color:#bf00ff;">GAMP-18027</a></td>
+      <td><strong style="font-size:12px;">Jackpot Widget Enhancements</strong><br><small style="color:#888;">Calvin Kent</small></td>
+      <td style="font-size:11px;color:#aaa;">Introduce real-time activity signals — sub-jackpot tiers, last win activity, drop frequency indicators, jackpot status (Hot/Normal/Recently Won).</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#0A1F3D;color:#82B1FF;border:1px solid #448AFF;">Implementation</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#3D2800;color:#FFB300;border:1px solid #FF8F00;">High</span></td>
+      
+    </tr><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-18028" style="color:#bf00ff;">GAMP-18028</a></td>
+      <td><strong style="font-size:12px;">Casino Jackpot Multi-Brand Rollout</strong><br><small style="color:#888;">Calvin Kent</small></td>
+      <td style="font-size:11px;color:#aaa;">Roll out redesigned jackpot widget experience across additional casino brands following successful Ladbrokes implementation.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#0A1F3D;color:#82B1FF;border:1px solid #448AFF;">Accepted</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#3D2800;color:#FFB300;border:1px solid #FF8F00;">High</span></td>
+      
+    </tr><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-18029" style="color:#bf00ff;">GAMP-18029</a></td>
+      <td><strong style="font-size:12px;">Casino Jackpot Product Integrations</strong><br><small style="color:#888;">Calvin Kent</small></td>
+      <td style="font-size:11px;color:#aaa;">Expand range of jackpots surfaced in casino lobby — timer jackpots, in-house jackpots, future jackpot products.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#0A1F3D;color:#82B1FF;border:1px solid #448AFF;">Accepted</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#3D2800;color:#FFB300;border:1px solid #FF8F00;">High</span></td>
+      
+    </tr><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-18632" style="color:#bf00ff;">GAMP-18632</a></td>
+      <td><strong style="font-size:12px;">Tournaments Redesign (BetMGM Focus)</strong><br><small style="color:#888;">Calvin Kent</small></td>
+      <td style="font-size:11px;color:#aaa;">Landing page and in-game widget redesign for Tournaments. Phase 2: Rules Page, Landing Page, In-Game Widget.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#0A1F3D;color:#82B1FF;border:1px solid #448AFF;">Implementation</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#3D2800;color:#FFB300;border:1px solid #FF8F00;">High</span></td>
+      
+    </tr><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-13985" style="color:#bf00ff;">GAMP-13985</a></td>
+      <td><strong style="font-size:12px;">Tournament Abuse Protection — Close Re-entry Gap</strong><br><small style="color:#888;">Calvin Kent</small></td>
+      <td style="font-size:11px;color:#aaa;">Close the re-entry gap in tournament abuse protection to prevent exploitation of tournament mechanics.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#0A1F3D;color:#82B1FF;border:1px solid #448AFF;">Prioritized</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#3D2800;color:#FFB300;border:1px solid #FF8F00;">High</span></td>
+      
+    </tr></tbody>
+    </table>
+  </div><div class="card" style="margin-bottom:16px;border-top:4px solid #FFB300;">
+    <div class="card-title" style="color:#FFB300;">6. PF2 — Platform Feed Squad 2 · Shubhangee Nath · Winners Feed / Hot &amp; Cold Modules</div>
+    <table>
+      <thead><tr><th style="width:90px;">Epic</th><th>Summary / Assignee</th><th>Description</th><th>Status</th><th>Priority</th><th>Delivery</th></tr></thead>
+      <tbody><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-15252" style="color:#bf00ff;">GAMP-15252</a></td>
+      <td><strong style="font-size:12px;">Winners Feed — De-duplication (ASE)</strong><br><small style="color:#888;">Shubhangee Nath</small></td>
+      <td style="font-size:11px;color:#aaa;">Remove duplicate player/game combination wins from Winners Feed. Apply min win threshold of 1000 local currency. Backend filtering only — no UI changes.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#0A1F3D;color:#82B1FF;border:1px solid #448AFF;">Implementation</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#1A2228;color:#90A4AE;border:1px solid #546E7A;">Medium</span></td>
+      <td style="color:#FF5252;font-weight:700;white-space:nowrap;font-size:11px;">End May 2026 🟡</td>
+    </tr><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-8713" style="color:#bf00ff;">GAMP-8713</a></td>
+      <td><strong style="font-size:12px;">Hot &amp; Cold — Games Exclusion for Feeds (DACH)</strong><br><small style="color:#888;">Shubhangee Nath</small></td>
+      <td style="font-size:11px;color:#aaa;">Exclude specific games from Winners Feed, Player Stats, Games You Might Like, JP Widget for Bwin.de and Sportingbet.de. RTP &gt;90% compliance.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#0A1F3D;color:#82B1FF;border:1px solid #448AFF;">Implementation</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#1A2228;color:#90A4AE;border:1px solid #546E7A;">Medium</span></td>
+      
+    </tr></tbody>
+    </table>
+  </div><div class="card" style="margin-bottom:16px;border-top:4px solid #546E7A;">
+    <div class="card-title" style="color:#546E7A;">7. Contingent Squad — Casino 2.0</div>
+    <table>
+      <thead><tr><th style="width:90px;">Epic</th><th>Summary / Assignee</th><th>Description</th><th>Status</th><th>Priority</th></tr></thead>
+      <tbody><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-18945" style="color:#bf00ff;">GAMP-18945</a></td>
+      <td><strong style="font-size:12px;">Casino 2.0 — Feature Migration (Casino2 package)</strong><br><small style="color:#888;">Unassigned</small></td>
+      <td style="font-size:11px;color:#aaa;">Migration of casino lobby features to new Casino2 frontend package. Needs to go into one of the Lobby Experience teams for pods.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#0A1F3D;color:#82B1FF;border:1px solid #448AFF;">Implementation</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#1A2228;color:#90A4AE;border:1px solid #546E7A;">Unprioritised</span></td>
+      
+    </tr><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-20491" style="color:#bf00ff;">GAMP-20491</a></td>
+      <td><strong style="font-size:12px;">Casino 2.0 — New Features</strong><br><small style="color:#888;">Unassigned</small></td>
+      <td style="font-size:11px;color:#aaa;">New Casino 2.0 features for Lobby Management. Unassigned — requires squad allocation.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#0A1F3D;color:#82B1FF;border:1px solid #448AFF;">Implementation</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#1A2228;color:#90A4AE;border:1px solid #546E7A;">Unprioritised</span></td>
+      
+    </tr></tbody>
+    </table>
+  </div><div class="card" style="margin-bottom:16px;border-top:4px solid #546E7A;">
+    <div class="card-title" style="color:#546E7A;">Pods. Pods — CI/CD / JDK Services / Game Launch Modernisation</div>
+    <table>
+      <thead><tr><th style="width:90px;">Epic</th><th>Summary / Assignee</th><th>Description</th><th>Status</th><th>Priority</th></tr></thead>
+      <tbody><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-22823" style="color:#bf00ff;">GAMP-22823</a></td>
+      <td><strong style="font-size:12px;">JDK Upgrade Phase 0 to 4</strong><br><small style="color:#888;">—</small></td>
+      <td style="font-size:11px;color:#aaa;">Organisation-wide JDK upgrade initiative — Phase 0 through 4. Prerequisite for independent JDK upgrade across Dublin and US.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#1A2228;color:#90A4AE;border:1px solid #546E7A;">New</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#3D2800;color:#FFB300;border:1px solid #FF8F00;">High</span></td>
+      
+    </tr><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-15559" style="color:#bf00ff;">GAMP-15559</a></td>
+      <td><strong style="font-size:12px;">Casino Services — JDK 17 Upgrade &amp; Single Branch Consolidation</strong><br><small style="color:#888;">—</small></td>
+      <td style="font-size:11px;color:#aaa;">Upgrading JDK from 7 to 17 for all Gaming services via Big Bang approach.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#0A1F3D;color:#82B1FF;border:1px solid #448AFF;">Implementation</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#3D2800;color:#FFB300;border:1px solid #FF8F00;">High</span></td>
+      
+    </tr><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-9585" style="color:#bf00ff;">GAMP-9585</a></td>
+      <td><strong style="font-size:12px;">JDK 17 Upgrade to Production &amp; Big Bang Support</strong><br><small style="color:#888;">—</small></td>
+      <td style="font-size:11px;color:#aaa;">Production deployment of JDK 17 upgrade and Big Bang support for all casino services.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#0A1F3D;color:#82B1FF;border:1px solid #448AFF;">Implementation</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#3D2800;color:#FFB300;border:1px solid #FF8F00;">High</span></td>
+      
+    </tr><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-8187" style="color:#bf00ff;">GAMP-8187</a></td>
+      <td><strong style="font-size:12px;">CI/CD Modernisation — Application Changes</strong><br><small style="color:#888;">—</small></td>
+      <td style="font-size:11px;color:#aaa;">Implementation of system components and processes for deployment of application changes. GitLab runners, Ansible, JFrog, SIEM integration.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#0A1F3D;color:#82B1FF;border:1px solid #448AFF;">Implementation</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#1A2228;color:#90A4AE;border:1px solid #546E7A;">Unprioritised</span></td>
+      
+    </tr><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-13468" style="color:#bf00ff;">GAMP-13468</a></td>
+      <td><strong style="font-size:12px;">CI/CD Modernisation — DB Changes</strong><br><small style="color:#888;">—</small></td>
+      <td style="font-size:11px;color:#aaa;">Implementation of system components and processes for deployment of DB changes. ADR, GitLab runners, runtime VMs, SIEM integration.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#1A2228;color:#90A4AE;border:1px solid #546E7A;">New</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#1A2228;color:#90A4AE;border:1px solid #546E7A;">Unprioritised</span></td>
+      
+    </tr><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-22829" style="color:#bf00ff;">GAMP-22829</a></td>
+      <td><strong style="font-size:12px;">Improve Game Launch Performance</strong><br><small style="color:#888;">—</small></td>
+      <td style="font-size:11px;color:#aaa;">Optimise game launch by eliminating DB call for bet limits — pass values directly through game launch URL. Reduces latency &gt;200ms.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#1A2228;color:#90A4AE;border:1px solid #546E7A;">New</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#1A2228;color:#90A4AE;border:1px solid #546E7A;">Medium</span></td>
+      
+    </tr><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-20398" style="color:#bf00ff;">GAMP-20398</a></td>
+      <td><strong style="font-size:12px;">Improve Game Launch Performance &amp; Tracking</strong><br><small style="color:#888;">—</small></td>
+      <td style="font-size:11px;color:#aaa;">Reduce time from player click to game launch. End-to-end tracking, performance bottleneck identification, SLA benchmarks.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#1A2228;color:#90A4AE;border:1px solid #546E7A;">New</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#1A2228;color:#90A4AE;border:1px solid #546E7A;">Low</span></td>
+      
+    </tr></tbody>
+    </table>
+  </div><div class="card" style="margin-bottom:16px;border-top:4px solid #EF6C00;">
+    <div class="card-title" style="color:#EF6C00;">Others. Others — PPaC Disaster Recovery / Federated Design System (FDS)</div>
+    <table>
+      <thead><tr><th style="width:90px;">Epic</th><th>Summary / Assignee</th><th>Description</th><th>Status</th><th>Priority</th></tr></thead>
+      <tbody><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-13638" style="color:#bf00ff;">GAMP-13638</a></td>
+      <td><strong style="font-size:12px;">PPaC Services Full Refresh on QA7 Clusters</strong><br><small style="color:#888;">Unassigned</small></td>
+      <td style="font-size:11px;color:#aaa;">Full-service refresh of all PPaC services on QA7 clusters. Platform codebase over a year old — no longer supports active development or testing projects.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#1A2228;color:#90A4AE;border:1px solid #546E7A;">New</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#3D2800;color:#FFB300;border:1px solid #FF8F00;">High</span></td>
+      
+    </tr><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/PERF-1026" style="color:#bf00ff;">PERF-1026</a></td>
+      <td><strong style="font-size:12px;">Federated Design System (FDS) Capability</strong><br><small style="color:#888;">Philip Ward (Lead) · Andrew Lowery (Casino FDS Lead)</small></td>
+      <td style="font-size:11px;color:#aaa;">Establish FDS as a platform capability within Gaming. 31 L2 components across 4 batches. Casino 2.0 as first product, Ladbrokes as first L3 brand adopter. Sponsor: Satty Bhens (CPTO). Status: Ideation. Unlocks £1.3B GGR across 30 brands.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#1A2228;color:#90A4AE;border:1px solid #546E7A;">Ideation</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#1A2228;color:#90A4AE;border:1px solid #546E7A;">Unprioritised</span></td>
+      
+    </tr></tbody>
+    </table>
+  </div><div class="card" style="border-top:4px solid #bf00ff;background:rgba(191,0,255,0.05);">
+    <div class="card-title" style="color:#bf00ff;">⚠ Tokenisation Phase 2.1 — Capacity Impact Assessment</div>
+    <ul class="item-list">
+      <li><strong>Joseph Senyah</strong> (LE2 EM) owns BetMGM Originals (hard deadline 15 Jun) and SSR Phase 1 simultaneously with Tokenisation. <span style="color:#FF5252;font-weight:700;">Capacity risk: HIGH</span></li>
+      <li><strong>Prabjeet Pahwa</strong> is named on Tokenisation R5 (geolocation testing) AND is active on EZNav Angular Migration and Memory Leak refactoring. <span style="color:#FF5252;font-weight:700;">Direct conflict</span></li>
+      <li><strong>Julian Jandl</strong> has 4 active/new SSR epics under LE2 — competes for shared platform capacity during Tokenisation S9–S13 window.</li>
+      <li><strong>Alberta X-Sell (May 2026)</strong> and <strong>BetMGM Originals (15 Jun)</strong> are both Highest priority with hard deadlines in the Tokenisation S9–S13 window.</li>
+      <li><strong>Casino 2.0 (Contingent Squad)</strong> is unassigned and needs squad allocation — adds further capacity pressure on LE1/LE2 teams.</li>
+      <li><strong>FDS (PERF-1026)</strong> is in Ideation — Julian Jandl is a named FDS engineer. If FDS accelerates, it directly competes with LE2 SSR capacity.</li>
+      <li><strong>Winners Feed (End of May)</strong> is an active PF2 deliverable with a confirmed near-term deadline.</li>
+    </ul>
+  </div>
+</div>
+</div><!-- end data-tab="competing" -->
 
 <!-- ══════════════════════════════════════════════
      FOOTER
 ══════════════════════════════════════════════ -->
-<div class="footer">
-  <span>Entain Gaming</span> · Tokenisation Phase 2.1 Project Dashboard · BetMGM US ·
-  Generated: 1 May 2026 · Sources: CI Tokenisation Project Summary (Confluence) · GAMP-12541 · Casino Journey Sync email chain · Sprint estimate doc ·
-  <span>Confidential — Internal Use Only</span>
+<div class="entain-footer entain-footer--dark">
+  <img src="entain-wordmark-white.png" alt="Entain" style="height:28px;margin-bottom:8px;opacity:0.7;">
+  <p>Tokenisation Phase 2.1 Project Dashboard · BetMGM US · Generated: 1 May 2026</p>
+  <p>Sources: CI Tokenisation Project Summary (Confluence) · GAMP-12541 · Casino Journey Sync · Sprint estimate doc</p>
+  <p style="margin-top:6px;color:#555;"><strong style="color:#666;">Confidential — Internal Use Only</strong></p>
 </div>
 
 </div><!-- end .main -->
+
+<script>
+  function showTab(tabName) {
+    // Hide all tab content
+    document.querySelectorAll('[data-tab]').forEach(function(el) {
+      el.style.display = 'none';
+    });
+    // Remove active from all tabs
+    document.querySelectorAll('.tab').forEach(function(el) {
+      el.classList.remove('active');
+    });
+    // Show selected tab content
+    document.querySelector('[data-tab="' + tabName + '"]').style.display = 'block';
+    // Set active tab
+    event.target.classList.add('active');
+  }
+
+  // Show overview by default on load
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelector('[data-tab="overview"]').style.display = 'block';
+  });
+</script>
+
 </body>
 </html>
 
