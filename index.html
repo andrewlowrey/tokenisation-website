@@ -1,0 +1,1311 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tokenisation Phase 2.1 — Project Dashboard | Entain Gaming</title>
+<style>
+  /* ── Entain Dark Mode Brand Tokens ── */
+  :root {
+    /* Brand */
+    --entain-purple:     #3D1152;
+    --entain-purple-mid: #5C2D82;
+    --entain-purple-lt:  #7B4FA6;
+    --entain-green:      #00C853;
+    --entain-green-dk:   #00A040;
+    --entain-lime:       #C6F135;
+
+    /* Dark mode surfaces */
+    --bg-page:    #0E0A14;
+    --bg-surface: #1A1225;
+    --bg-card:    #221830;
+    --bg-card-alt:#2A1E3A;
+    --bg-hover:   #32264A;
+    --border:     #3A2A52;
+    --border-lt:  #2E2040;
+
+    /* Text */
+    --text-primary:   #F0EBF8;
+    --text-secondary: #B8A8D0;
+    --text-muted:     #7A6A90;
+    --text-on-dark:   #FFFFFF;
+
+    /* Status — vivid enough to pop on dark */
+    --status-green:  #00E676;
+    --status-amber:  #FFB300;
+    --status-red:    #FF5252;
+    --status-blue:   #448AFF;
+    --status-grey:   #90A4AE;
+
+    /* Gantt bars */
+    --bar-dev:        #43A047;
+    --bar-int:        #5C6BC0;
+    --bar-flex:       #F9A825;
+    --bar-analysis:   #EF6C00;
+    --bar-signoff:    #E57373;
+    --bar-regression: #26A69A;
+    --bar-demo:       #78909C;
+    --bar-uat:        #00ACC1;
+    --bar-release:    #1E88E5;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: var(--bg-page);
+    color: var(--text-primary);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  /* ── Header ── */
+  .header {
+    background: linear-gradient(135deg, #1A0A2E 0%, #2D1050 50%, #3D1152 100%);
+    border-bottom: 2px solid var(--entain-lime);
+    color: var(--text-on-dark);
+    padding: 24px 32px 20px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .header-left h1 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.3px;
+    margin-bottom: 4px;
+    color: #FFFFFF;
+  }
+  .header-left h1 span { color: var(--entain-lime); }
+  .header-left p { font-size: 12px; color: var(--text-secondary); }
+  .header-right { text-align: right; flex-shrink: 0; }
+  .header-right .badge {
+    display: inline-block;
+    background: var(--entain-green);
+    color: #0E0A14;
+    font-weight: 700;
+    font-size: 11px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+  .header-right .badge.amber { background: var(--status-amber); color: #0E0A14; }
+  .header-right p { font-size: 11px; color: var(--text-secondary); }
+
+  /* ── Nav Tabs ── */
+  .tabs {
+    background: #150D22;
+    display: flex;
+    gap: 2px;
+    padding: 0 32px;
+    border-bottom: 2px solid var(--border);
+  }
+  .tab {
+    padding: 10px 18px;
+    color: var(--text-muted);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .tab:hover { color: var(--text-primary); }
+  .tab.active { color: var(--entain-lime); border-bottom-color: var(--entain-lime); }
+
+  /* ── Main Layout ── */
+  .main { padding: 24px 32px; }
+  .section { margin-bottom: 28px; }
+  .section-title {
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--entain-lime);
+    border-left: 4px solid var(--entain-lime);
+    padding-left: 10px;
+    margin-bottom: 14px;
+  }
+
+  /* ── KPI Cards ── */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .kpi-card {
+    background: var(--bg-card);
+    border-radius: 8px;
+    padding: 16px;
+    border-top: 4px solid var(--entain-purple-mid);
+    border: 1px solid var(--border);
+    border-top: 4px solid var(--entain-purple-mid);
+  }
+  .kpi-card.green  { border-top-color: var(--status-green); }
+  .kpi-card.amber  { border-top-color: var(--status-amber); }
+  .kpi-card.red    { border-top-color: var(--status-red); }
+  .kpi-card.blue   { border-top-color: var(--status-blue); }
+  .kpi-card.lime   { border-top-color: var(--entain-lime); }
+  .kpi-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--text-muted); margin-bottom: 6px; }
+  .kpi-value { font-size: 26px; font-weight: 700; color: var(--text-primary); line-height: 1; }
+  .kpi-sub   { font-size: 11px; color: var(--text-secondary); margin-top: 4px; }
+
+  /* ── Two-col layout ── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+
+  /* ── Cards ── */
+  .card {
+    background: var(--bg-card);
+    border-radius: 8px;
+    padding: 16px;
+    border: 1px solid var(--border);
+  }
+  .card-title {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--entain-lime);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* ── Tables ── */
+  table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  th {
+    background: #1A0A2E;
+    color: var(--entain-lime);
+    padding: 8px 10px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    border-bottom: 1px solid var(--border);
+  }
+  td {
+    padding: 7px 10px;
+    border-bottom: 1px solid var(--border-lt);
+    vertical-align: top;
+    color: var(--text-primary);
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:nth-child(even) td { background: var(--bg-card-alt); }
+  tr:hover td { background: var(--bg-hover); }
+
+  /* ── Status Pills — dark-mode safe (dark bg, bright text) ── */
+  .pill {
+    display: inline-block;
+    padding: 2px 9px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    white-space: nowrap;
+  }
+  .pill-green  { background: #003D1A; color: #00E676; border: 1px solid #00C853; }
+  .pill-amber  { background: #3D2800; color: #FFB300; border: 1px solid #FF8F00; }
+  .pill-red    { background: #3D0A0A; color: #FF5252; border: 1px solid #E53935; }
+  .pill-blue   { background: #0A1F3D; color: #82B1FF; border: 1px solid #448AFF; }
+  .pill-grey   { background: #1A2228; color: #90A4AE; border: 1px solid #546E7A; }
+  .pill-purple { background: #1E0A3D; color: #CE93D8; border: 1px solid #7B4FA6; }
+
+  /* ── Risk severity ── */
+  .sev-high   { color: #FF5252; font-weight: 700; }
+  .sev-medium { color: #FFB300; font-weight: 700; }
+  .sev-low    { color: #00E676; font-weight: 700; }
+
+  /* ── GANTT ── */
+  .gantt-wrap { overflow-x: auto; }
+  .gantt-table { min-width: 1100px; }
+  .gantt-table th { font-size: 10px; padding: 6px 4px; text-align: center; background: #1A0A2E; color: var(--entain-lime); }
+  .gantt-table td { padding: 4px 6px; font-size: 11px; color: var(--text-primary); }
+  .gantt-table td.label { font-weight: 600; white-space: nowrap; min-width: 180px; color: var(--text-primary); }
+  .gantt-table td.sub-label { padding-left: 20px; color: var(--text-secondary); font-style: italic; }
+  .gantt-table tr.group-row td { background: #1A0A2E; color: var(--entain-lime); font-weight: 700; font-size: 11px; border-bottom: 1px solid var(--border); }
+
+  .bar-cell { position: relative; height: 22px; }
+  .bar {
+    position: absolute;
+    height: 16px;
+    top: 3px;
+    border-radius: 3px;
+    display: flex;
+    align-items: center;
+    padding: 0 6px;
+    font-size: 9px;
+    font-weight: 700;
+    color: #FFFFFF;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+  }
+  .bar-dev      { background: var(--bar-dev); }
+  .bar-int      { background: var(--bar-int); }
+  .bar-analysis { background: var(--bar-analysis); }
+  .bar-flex     { background: var(--bar-flex); color: #1A0A2E; text-shadow: none; border: 1px solid #B8860B; }
+  .bar-uat      { background: var(--bar-uat); color: #0A1A1F; text-shadow: none; }
+  .bar-release  { background: var(--bar-release); }
+  .bar-demo     { background: var(--bar-demo); color: #1A2228; text-shadow: none; }
+  .bar-regression { background: var(--bar-regression); color: #0A1F1E; text-shadow: none; }
+  .bar-blocked  { background: repeating-linear-gradient(45deg, #EF6C00, #EF6C00 4px, #2A1800 4px, #2A1800 8px); color: #FFFFFF; border: 1px solid #EF6C00; text-shadow: 1px 1px 3px rgba(0,0,0,0.9); font-weight: 700; }
+
+  /* Gate marker */
+  .gate-col { background: rgba(255,82,82,0.06); border-left: 2px dashed rgba(255,82,82,0.5) !important; }
+
+  /* ── Progress bar ── */
+  .progress-wrap { background: var(--border); border-radius: 4px; height: 8px; overflow: hidden; margin-top: 4px; }
+  .progress-fill { height: 100%; border-radius: 4px; background: var(--status-green); }
+  .progress-fill.amber { background: var(--status-amber); }
+  .progress-fill.red   { background: var(--status-red); }
+
+  /* ── Action items ── */
+  .action-item {
+    display: flex;
+    gap: 10px;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border-lt);
+    align-items: flex-start;
+  }
+  .action-item:last-child { border-bottom: none; }
+  .action-num {
+    background: var(--entain-purple-mid);
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+  .action-text { flex: 1; color: var(--text-primary); }
+  .action-owner { font-size: 10px; color: var(--text-muted); margin-top: 2px; }
+
+  /* ── Assumption / Decision items ── */
+  .item-list { list-style: none; }
+  .item-list li {
+    padding: 7px 0 7px 14px;
+    border-bottom: 1px solid var(--border-lt);
+    position: relative;
+    font-size: 12px;
+    color: var(--text-primary);
+  }
+  .item-list li:last-child { border-bottom: none; }
+  .item-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 14px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--entain-lime);
+  }
+
+  /* ── Legend ── */
+  .legend { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+  .legend-item { display: flex; align-items: center; gap: 5px; font-size: 10px; color: var(--text-secondary); }
+  .legend-dot { width: 12px; height: 12px; border-radius: 2px; flex-shrink: 0; }
+
+  /* ── Footer ── */
+  .footer {
+    background: #0A0614;
+    border-top: 2px solid var(--border);
+    color: var(--text-muted);
+    text-align: center;
+    padding: 14px;
+    font-size: 11px;
+    margin-top: 32px;
+  }
+  .footer span { color: var(--entain-lime); font-weight: 600; }
+
+  /* ── Inline stat boxes (portfolio section) ── */
+  .stat-box {
+    background: var(--bg-card-alt);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 16px;
+    text-align: center;
+  }
+  .stat-box .stat-val { font-size: 22px; font-weight: 700; }
+  .stat-box .stat-lbl { font-size: 10px; color: var(--text-muted); text-transform: uppercase; }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .two-col, .three-col { grid-template-columns: 1fr; }
+    .header { flex-direction: column; }
+  }
+
+  /* ── Print ── */
+  @media print {
+    body { background: white; color: black; }
+    .tabs { display: none; }
+    .gantt-wrap { overflow: visible; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════
+     HEADER
+══════════════════════════════════════════════ -->
+<div class="header">
+  <div class="header-left">
+    <h1>Tokenisation Phase 2.1 — <span>Gaming &amp; In-Game Dashboard</span></h1>
+    <p>BetMGM US · Casino Integrations (GIS) &amp; In-Game (GAMP) Workstreams · Last Updated: 1 May 2026</p>
+    <p style="margin-top:6px;font-size:11px;opacity:0.6;">Source: CI Tokenisation Project Summary · GAMP-12541 · Casino Journey Sync email chain · Sprint estimate doc</p>
+  </div>
+  <div class="header-right">
+    <div class="badge amber">⚠ AT RISK</div>
+    <p>Overall Project Status</p>
+    <p style="margin-top:4px;">Target Release: <strong style="color:#C6F135;">Oct 2026 (S21)</strong></p>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     TABS (decorative — all content shown)
+══════════════════════════════════════════════ -->
+<div class="tabs">
+  <div class="tab active">Overview</div>
+  <div class="tab">GANTT</div>
+  <div class="tab">Risks &amp; Issues</div>
+  <div class="tab">Dependencies</div>
+  <div class="tab">Actions</div>
+</div>
+
+<div class="main">
+
+<!-- ══════════════════════════════════════════════
+     KPI SUMMARY ROW
+══════════════════════════════════════════════ -->
+<div class="kpi-grid">
+  <div class="kpi-card green">
+    <div class="kpi-label">In-Game Stories Closed</div>
+    <div class="kpi-value">9</div>
+    <div class="kpi-sub">of 32 total (28%)</div>
+    <div class="progress-wrap"><div class="progress-fill" style="width:28%"></div></div>
+  </div>
+  <div class="kpi-card amber">
+    <div class="kpi-label">In-Game Stories Open</div>
+    <div class="kpi-value">23</div>
+    <div class="kpi-sub">Unassigned: 18</div>
+    <div class="progress-wrap"><div class="progress-fill amber" style="width:72%"></div></div>
+  </div>
+  <div class="kpi-card red">
+    <div class="kpi-label">GIS Sprints Remaining</div>
+    <div class="kpi-value">8</div>
+    <div class="kpi-sub">S9–S15 (16 weeks)</div>
+  </div>
+  <div class="kpi-card blue">
+    <div class="kpi-label">GAMP Dedicated Devs Needed</div>
+    <div class="kpi-value">2+</div>
+    <div class="kpi-sub">+ 1–2 QA to meet Dec 2026 target</div>
+  </div>
+  <div class="kpi-card lime">
+    <div class="kpi-label">Open Actions</div>
+    <div class="kpi-value">5</div>
+    <div class="kpi-sub">2 overdue (24–25 Apr)</div>
+  </div>
+  <div class="kpi-card red">
+    <div class="kpi-label">Unresolved Design Decisions</div>
+    <div class="kpi-value">4</div>
+    <div class="kpi-sub">Blocking dev start</div>
+  </div>
+  <div class="kpi-card amber">
+    <div class="kpi-label">BetMGM Sign-Off</div>
+    <div class="kpi-value">Partial</div>
+    <div class="kpi-sub">Written UX sign-off outstanding</div>
+  </div>
+  <div class="kpi-card">
+    <div class="kpi-label">Roadmap Gate</div>
+    <div class="kpi-value" style="font-size:14px;">Sprint 17</div>
+    <div class="kpi-sub">Integration Ready Gate (3 Aug)</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PROJECT BREAKDOWN
+══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">Project Breakdown</div>
+  <div class="two-col">
+
+    <!-- CI / GIS Workstream -->
+    <div class="card">
+      <div class="card-title">🏗 Casino Integrations (GIS — GAMC Project) Workstream</div>
+      <table>
+        <tr><th>Area</th><th>Detail</th></tr>
+        <tr><td><strong>What</strong></td><td>GIS acts as proxy between game suppliers and wallet/rewards. Enables bonus selection at game launch and passes selected bonus ID through all bet/win transactions.</td></tr>
+        <tr><td><strong>Status</strong></td><td><span class="pill pill-amber">Planning / Estimation</span></td></tr>
+        <tr><td><strong>Scope</strong></td><td>Desktop EzNav widget · Backend API integration · DB changes · Bonus &amp; free spins changes · Hand-complete event · E2E testing · QA · E7 merge &amp; release</td></tr>
+        <tr><td><strong>Estimate</strong></td><td>8 sprints (S9–S15) with parallel execution after Analysis sprint</td></tr>
+        <tr><td><strong>Accelerator</strong></td><td>Resource allocation TBC — depends on higher priority initiatives resolution</td></tr>
+        <tr><td><strong>Key Arch Decision</strong></td><td>Wallet = single source of truth. GIS no longer calls CRM Rewards directly during gameplay. Supplier-facing contract unchanged.</td></tr>
+        <tr><td><strong>Owner EM</strong></td><td>Rajeshwar Puppireddy</td></tr>
+        <tr><td><strong>Owner TL</strong></td><td>Pradeep Edagotti</td></tr>
+        <tr><td><strong>PM</strong></td><td>Roderick Cassar</td></tr>
+      </table>
+    </div>
+
+    <!-- In-Game / GAMP Workstream -->
+    <div class="card">
+      <div class="card-title">🎮 In-Game (GAMP — Lobby Experience) Workstream</div>
+      <table>
+        <tr><th>Area</th><th>Detail</th></tr>
+        <tr><td><strong>What</strong></td><td>EZ Nav enhancement for BetMGM US. New Promos icon replaces Search. Mobile portrait + landscape. Desktop uses mobile landscape version (no separate desktop EZ Nav).</td></tr>
+        <tr><td><strong>Status</strong></td><td><span class="pill pill-amber">Dev in progress (mock APIs)</span></td></tr>
+        <tr><td><strong>Scope</strong></td><td>Promos icon · Half-sheet modal · Progress bar · Bonus acceptance &amp; free spins flow · Game reload on apply · Wagering completion messages · Grey-out unavailable promos</td></tr>
+        <tr><td><strong>Target Release</strong></td><td>Oct 2026 (Sprint 21)</td></tr>
+        <tr><td><strong>Blocker</strong></td><td>GIS team must deliver completed API by end of Q3 2026 to commit to Oct 2026 date. GAMP needs 2 dedicated devs + 1–2 QA to meet target.</td></tr>
+        <tr><td><strong>Environments</strong></td><td>QA6, QA8, QA9 (BetMGM US only). NJ Casino: qa6.www.nj.betmgm.com</td></tr>
+        <tr><td><strong>Owner EM</strong></td><td>Joseph Senyah</td></tr>
+        <tr><td><strong>Reporter</strong></td><td>Andrew Lowery</td></tr>
+        <tr><td><strong>Epic</strong></td><td>GAMP-12541 · T-Shirt: L · RICE Score: 54</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PHASE SCOPE TABLE
+══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">Phase Scope &amp; Status</div>
+  <div class="card">
+    <table>
+      <tr>
+        <th>Phase</th>
+        <th>Scope</th>
+        <th>Team</th>
+        <th>Status</th>
+        <th>Target</th>
+      </tr>
+      <tr>
+        <td><strong>Phase 2.1</strong></td>
+        <td>Gaming Tokens — Deposit &amp; Get offers (BetMGM)</td>
+        <td>CRM / EDS / GIS / GAMP</td>
+        <td><span class="pill pill-blue">Dev in Progress</span></td>
+        <td>Q3 2026 (API) / Oct 2026 (full)</td>
+      </tr>
+      <tr>
+        <td><strong>Phase 2.1 R2</strong></td>
+        <td>Multi-product bonus signposting (Universal Bonus)</td>
+        <td>CRM Platform (POS)</td>
+        <td><span class="pill pill-red">Planning Blocked</span></td>
+        <td>TBC</td>
+      </tr>
+      <tr>
+        <td><strong>GIS Phase</strong></td>
+        <td>Casino game launch bonus selection, wallet integration, bonus switching</td>
+        <td>Casino Integrations (GIS)</td>
+        <td><span class="pill pill-amber">Planning / Estimation</span></td>
+        <td>S9–S15 (8 sprints)</td>
+      </tr>
+      <tr>
+        <td><strong>In-Game Phase</strong></td>
+        <td>EZ Nav Promos icon, Promo Drawer, progress bar (BetMGM mobile + desktop)</td>
+        <td>GAMP Lobby Experience</td>
+        <td><span class="pill pill-amber">Dev (mock APIs)</span></td>
+        <td>Oct 2026 (Sprint 21)</td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════════
+     REVISED GANTT CHART — CORRECTED DEPENDENCY SEQUENCING
+══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">Revised GANTT — Tokenisation Phase 2.1 (Corrected Dependency Chain)</div>
+  <div class="card">
+    <p style="font-size:11px;color:#8A7AA0;margin-bottom:10px;">
+      <strong style="color:#FF5252;">CRITICAL DEPENDENCY CHAIN:</strong> EDS/Rewards + Wallet + CRM Platform APIs must be <strong>deployed and stable</strong> before GIS backend work can begin.
+      GIS backend work (S11–12) is <strong>blocked</strong> until upstream APIs are confirmed. GIS API must be deployed by end Q3 (S16) to unblock GAMP real integration.
+      <strong style="color:#FF5252;">Red dashed line = Integration Ready Gate (Sprint 17, ~3 Aug 2026).</strong>
+    </p>
+    <div class="gantt-wrap">
+      <table class="gantt-table">
+        <thead>
+          <tr>
+            <th style="text-align:left;min-width:220px;">#&nbsp;&nbsp;WORKSTREAM</th>
+            <th>S9<br><small>28 Apr–<br>12 May</small></th>
+            <th>S10<br><small>13 May–<br>26 May</small></th>
+            <th>S11<br><small>27 May–<br>9 Jun</small></th>
+            <th>S12<br><small>10 Jun–<br>23 Jun</small></th>
+            <th>S13<br><small>24 Jun–<br>7 Jul</small></th>
+            <th>S14<br><small>8 Jul–<br>21 Jul</small></th>
+            <th>S15<br><small>22 Jul–<br>4 Aug</small></th>
+            <th class="gate-col">S16<br><small>5 Aug–<br>18 Aug</small></th>
+            <th class="gate-col">S17<br><small>19 Aug–<br>1 Sep</small></th>
+            <th>S18<br><small>2 Sep–<br>15 Sep</small></th>
+            <th>S19<br><small>16 Sep–<br>29 Sep</small></th>
+            <th>S20<br><small>30 Sep–<br>13 Oct</small></th>
+            <th>S21<br><small>14 Oct–<br>27 Oct</small></th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <!-- GROUP 0: UPSTREAM API DEPENDENCIES (MUST COMPLETE FIRST) -->
+          <tr class="group-row">
+            <td colspan="14">0 · UPSTREAM API DEPENDENCIES (Prerequisite for GIS Backend Work)</td>
+          </tr>
+          <tr>
+            <td class="label">EDS / Rewards Team — API Contracts</td>
+            <td colspan="2"><div class="bar-cell"><div class="bar bar-analysis" style="left:0;right:0;">Contract Review</div></div></td>
+            <td colspan="2"><div class="bar-cell"><div class="bar bar-dev" style="left:0;right:0;">API Development</div></div></td>
+            <td colspan="1"><div class="bar-cell"><div class="bar bar-release" style="left:0;right:0;">Deploy</div></div></td>
+            <td></td><td></td>
+            <td class="gate-col"></td><td class="gate-col"></td><td></td><td></td><td></td><td></td>
+          </tr>
+          <tr>
+            <td class="label">Wallet Team — Bonus ID on Bet/Win</td>
+            <td colspan="1"><div class="bar-cell"><div class="bar bar-analysis" style="left:0;right:0;">Contract</div></div></td>
+            <td colspan="3"><div class="bar-cell"><div class="bar bar-dev" style="left:0;right:0;">API Development</div></div></td>
+            <td colspan="1"><div class="bar-cell"><div class="bar bar-release" style="left:0;right:0;">Deploy</div></div></td>
+            <td></td><td></td>
+            <td class="gate-col"></td><td class="gate-col"></td><td></td><td></td><td></td><td></td>
+          </tr>
+          <tr>
+            <td class="label">CRM Platform (POS) — Offer Service APIs</td>
+            <td colspan="2"><div class="bar-cell"><div class="bar bar-analysis" style="left:0;right:0;">Internal Assessment</div></div></td>
+            <td colspan="2"><div class="bar-cell"><div class="bar bar-dev" style="left:0;right:0;">Development</div></div></td>
+            <td colspan="1"><div class="bar-cell"><div class="bar bar-release" style="left:0;right:0;">Deploy</div></div></td>
+            <td></td><td></td>
+            <td class="gate-col"></td><td class="gate-col"></td><td></td><td></td><td></td><td></td>
+          </tr>
+          <tr>
+            <td class="label" style="color:#FF5252;font-weight:700;">⚠ UPSTREAM API GATE (End S13)</td>
+            <td></td><td></td><td></td><td></td>
+            <td colspan="1"><div class="bar-cell"><div class="bar" style="left:0;right:0;background:#C62828;">APIs Must Be Deployed</div></div></td>
+            <td></td><td></td>
+            <td class="gate-col"></td><td class="gate-col"></td><td></td><td></td><td></td><td></td>
+          </tr>
+
+          <!-- GROUP 1: GIS / Casino Integrations (GAMC) -->
+          <tr class="group-row">
+            <td colspan="14">1 · Casino Integrations (GIS — GAMC Project) Workstream</td>
+          </tr>
+          <tr>
+            <td class="label">Analysis &amp; API Contract Review</td>
+            <td colspan="1"><div class="bar-cell"><div class="bar bar-analysis" style="left:0;right:0;">Analysis</div></div></td>
+            <td></td><td></td><td></td><td></td><td></td><td></td>
+            <td class="gate-col"></td><td class="gate-col"></td><td></td><td></td><td></td><td></td>
+          </tr>
+          <tr>
+            <td class="label sub-label">Desktop EzNav Widget (UI only)</td>
+            <td></td>
+            <td colspan="1"><div class="bar-cell"><div class="bar bar-dev" style="left:0;right:0;">Dev</div></div></td>
+            <td></td><td></td><td></td><td></td><td></td>
+            <td class="gate-col"></td><td class="gate-col"></td><td></td><td></td><td></td><td></td>
+          </tr>
+          <tr>
+            <td class="label sub-label">⚠ Backend API + DB (BLOCKED until S13)</td>
+            <td></td><td></td>
+            <td colspan="2"><div class="bar-cell"><div class="bar bar-blocked" style="left:0;right:0;">BLOCKED → Upstream APIs</div></div></td>
+            <td colspan="2"><div class="bar-cell"><div class="bar bar-dev" style="left:0;right:0;">Dev (if APIs ready)</div></div></td>
+            <td></td>
+            <td class="gate-col"></td><td class="gate-col"></td><td></td><td></td><td></td><td></td>
+          </tr>
+          <tr>
+            <td class="label sub-label">⚠ Bonus &amp; Free Spins (BLOCKED until S13)</td>
+            <td></td><td></td>
+            <td colspan="2"><div class="bar-cell"><div class="bar bar-blocked" style="left:0;right:0;">BLOCKED → Wallet APIs</div></div></td>
+            <td colspan="2"><div class="bar-cell"><div class="bar bar-dev" style="left:0;right:0;">Dev (if APIs ready)</div></div></td>
+            <td></td>
+            <td class="gate-col"></td><td class="gate-col"></td><td></td><td></td><td></td><td></td>
+          </tr>
+          <tr>
+            <td class="label sub-label">E2E Dev Integration Testing</td>
+            <td></td><td></td><td></td><td></td><td></td><td></td>
+            <td colspan="1"><div class="bar-cell"><div class="bar bar-int" style="left:0;right:0;">Int Test</div></div></td>
+            <td class="gate-col"></td><td class="gate-col"></td><td></td><td></td><td></td><td></td>
+          </tr>
+          <tr>
+            <td class="label sub-label">QA Testing (incl. regression)</td>
+            <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            <td class="gate-col" colspan="2"><div class="bar-cell"><div class="bar bar-regression" style="left:0;right:0;">QA / Regression</div></div></td>
+            <td></td><td></td><td></td><td></td>
+          </tr>
+          <tr>
+            <td class="label sub-label">E7 Merge, Deploy &amp; Release</td>
+            <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            <td class="gate-col"></td>
+            <td class="gate-col" colspan="1"><div class="bar-cell"><div class="bar bar-release" style="left:0;right:0;">Release</div></div></td>
+            <td></td><td></td><td></td><td></td>
+          </tr>
+          <tr>
+            <td class="label" style="color:#FF5252;font-weight:700;">⚠ GIS API DEPLOYED (End Q3 — S17)</td>
+            <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            <td class="gate-col"></td>
+            <td class="gate-col" colspan="1"><div class="bar-cell"><div class="bar" style="left:0;right:0;background:#C62828;">GIS API Deployed</div></div></td>
+            <td></td><td></td><td></td><td></td>
+          </tr>
+
+          <!-- GROUP 2: In-Game / GAMP -->
+          <tr class="group-row">
+            <td colspan="14">2 · In-Game (GAMP — Lobby Experience) Workstream</td>
+          </tr>
+          <tr>
+            <td class="label">EZ Nav UI (Mock APIs) — Closed Stories</td>
+            <td colspan="4"><div class="bar-cell"><div class="bar bar-dev" style="left:0;right:0;">Dev Complete (9 stories closed)</div></div></td>
+            <td></td><td></td><td></td>
+            <td class="gate-col"></td><td class="gate-col"></td><td></td><td></td><td></td><td></td>
+          </tr>
+          <tr>
+            <td class="label">Remaining Open Stories (23) — Mock APIs</td>
+            <td colspan="2"><div class="bar-cell"><div class="bar bar-flex" style="left:0;right:0;">Flexible Dev Window</div></div></td>
+            <td colspan="5"><div class="bar-cell"><div class="bar bar-dev" style="left:0;right:0;">Active Dev (mock APIs)</div></div></td>
+            <td class="gate-col"></td><td class="gate-col"></td><td></td><td></td><td></td><td></td>
+          </tr>
+          <tr>
+            <td class="label">⚠ Real API Integration (BLOCKED until S17)</td>
+            <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            <td class="gate-col"></td>
+            <td class="gate-col" colspan="1"><div class="bar-cell"><div class="bar bar-blocked" style="left:0;right:0;">BLOCKED → GIS</div></div></td>
+            <td colspan="2"><div class="bar-cell"><div class="bar bar-int" style="left:0;right:0;">Integration</div></div></td>
+            <td></td><td></td>
+          </tr>
+          <tr>
+            <td class="label">E2E Testing &amp; UAT (BetMGM)</td>
+            <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            <td class="gate-col"></td><td class="gate-col"></td><td></td><td></td>
+            <td colspan="1"><div class="bar-cell"><div class="bar bar-uat" style="left:0;right:0;">UAT</div></div></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="label" style="color:#00E676;font-weight:700;">🎯 MILESTONE: Production Release</td>
+            <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            <td class="gate-col"></td><td class="gate-col"></td><td></td><td></td><td></td>
+            <td><div class="bar-cell"><div class="bar bar-release" style="left:0;right:0;">🎯 Production Release</div></div></td>
+          </tr>
+
+          <!-- GROUP 3: Roadmap Workstreams (from image) -->
+          <tr class="group-row">
+            <td colspan="14">3 · Roadmap Context (Other Workstreams — from Roadmap Image)</td>
+          </tr>
+          <tr>
+            <td class="label">Platform EDS &amp; Rewards</td>
+            <td colspan="9"><div class="bar-cell"><div class="bar bar-dev" style="left:0;right:0;">Dev + Integration in parallel</div></div></td>
+            <td class="gate-col"></td><td class="gate-col"></td><td></td><td></td>
+          </tr>
+          <tr>
+            <td class="label">CRM Studio (CL)</td>
+            <td colspan="7"><div class="bar-cell"><div class="bar bar-dev" style="left:0;right:0;">Development</div></div></td>
+            <td class="gate-col"></td><td class="gate-col"></td><td></td><td></td><td></td><td></td>
+          </tr>
+          <tr>
+            <td class="label">Core — Wallet</td>
+            <td></td>
+            <td colspan="4"><div class="bar-cell"><div class="bar bar-dev" style="left:0;right:0;">Development</div></div></td>
+            <td colspan="2"><div class="bar-cell"><div class="bar bar-int" style="left:0;right:0;">Integration</div></div></td>
+            <td class="gate-col"></td><td class="gate-col"></td><td></td><td></td><td></td><td></td>
+          </tr>
+          <tr>
+            <td class="label">Sports</td>
+            <td colspan="2"><div class="bar-cell"><div class="bar bar-blocked" style="left:0;right:0;">Analysis — start pending</div></div></td>
+            <td colspan="4"><div class="bar-cell"><div class="bar bar-dev" style="left:0;right:0;">Target: Int ready by S14</div></div></td>
+            <td></td>
+            <td class="gate-col"></td><td class="gate-col"></td><td></td><td></td><td></td><td></td>
+          </tr>
+          <tr>
+            <td class="label">PAT / PAPI / Jarvis Integrations</td>
+            <td colspan="7"></td>
+            <td class="gate-col" colspan="2"><div class="bar-cell"><div class="bar bar-int" style="left:0;right:0;">Integration &amp; Test</div></div></td>
+            <td></td><td></td><td></td><td></td>
+          </tr>
+          <tr>
+            <td class="label">Integration Sign Off (Dev + Int)</td>
+            <td colspan="8"><div class="bar-cell"><div class="bar bar-flex" style="left:0;right:0;">Sign Off Track</div></div></td>
+            <td class="gate-col"></td><td></td><td></td><td></td><td></td>
+          </tr>
+          <tr>
+            <td class="label">MUAT</td>
+            <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            <td class="gate-col"></td><td class="gate-col"></td>
+            <td colspan="2"><div class="bar-cell"><div class="bar bar-uat" style="left:0;right:0;">UAT on Stage</div></div></td>
+            <td></td><td></td>
+          </tr>
+          <tr>
+            <td class="label">Testing &amp; Prod Releases</td>
+            <td></td><td></td><td></td><td></td><td></td><td></td><td></td>
+            <td class="gate-col"></td><td class="gate-col"></td>
+            <td colspan="1"><div class="bar-cell"><div class="bar bar-regression" style="left:0;right:0;">Regression (QA8)</div></div></td>
+            <td></td>
+            <td colspan="2"><div class="bar-cell"><div class="bar bar-release" style="left:0;right:0;">Release</div></div></td>
+          </tr>
+
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Legend -->
+    <div class="legend" style="margin-top:14px;">
+      <div class="legend-item"><div class="legend-dot" style="background:#43A047;"></div> Development</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#5C6BC0;"></div> Integration (QA6)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#F9A825;border:1px solid #B8860B;"></div> Flexible Dev Window</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#EF6C00;"></div> Analysis / Planning</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#E57373;"></div> Sign Off Track</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#26A69A;"></div> Regression on Stage</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#00ACC1;"></div> UAT</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#1E88E5;"></div> Production Release</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#C62828;"></div> Critical Gate</div>
+      <div class="legend-item"><div class="legend-dot" style="background:repeating-linear-gradient(45deg,#EF6C00,#EF6C00 4px,#2A1800 4px,#2A1800 8px);border:1px solid #EF6C00;"></div> Blocked</div>
+    </div>
+  </div>
+</div>
+<!-- ══════════════════════════════════════════════
+     RISKS & ISSUES
+══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">Risks, Issues &amp; Impact to Gaming Portfolio</div>
+  <div class="card">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Risk / Issue</th>
+          <th>Category</th>
+          <th>Severity</th>
+          <th>Probability</th>
+          <th>Impact</th>
+          <th>Portfolio Impact</th>
+          <th>Mitigation</th>
+          <th>Owner</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- HIGH SEVERITY RISKS -->
+        <tr>
+          <td>R1</td>
+          <td><strong>Game launch latency +2–5s</strong><br><small>Additional CRM Rewards call on every game launch for all tokenised labels, including users with no bonuses</small></td>
+          <td>Performance</td>
+          <td class="sev-high">HIGH</td>
+          <td><span class="pill pill-red">High</span></td>
+          <td>Degraded player experience at game launch; BetMGM already flagging perf concerns</td>
+          <td>Affects all BetMGM casino games. Sets precedent for other labels if tokenisation rolls out wider.</td>
+          <td>Async pre-fetch; cache bonus eligibility; timeout fallback to launch without widget</td>
+          <td>Rajeshwar / Pradeep</td>
+          <td><span class="pill pill-amber">Open</span></td>
+        </tr>
+        <tr>
+          <td>R2</td>
+          <td><strong>Bonus switch = full game reload (5–15s)</strong><br><small>Supplier APIs do not support mid-session wallet context changes. Every bonus switch triggers complete game reload.</small></td>
+          <td>UX / Architecture</td>
+          <td class="sev-high">HIGH</td>
+          <td><span class="pill pill-red">Confirmed</span></td>
+          <td>Player loses immersion; mid-session interruption; potential session abandonment</td>
+          <td>If adopted by other labels, full reload pattern becomes standard — significant NPS risk across portfolio</td>
+          <td>BetMGM verbal acceptance obtained. <strong>Written sign-off still required.</strong> Document UX trade-off formally.</td>
+          <td>Rod / Rajeshwar</td>
+          <td><span class="pill pill-red">Action Required</span></td>
+        </tr>
+        <tr>
+          <td>R3</td>
+          <td><strong>Balance desync (widget vs game)</strong><br><small>In-game widget balance and actual game balance come from two separate systems. Diverge during free spins (balance only updates on round completion).</small></td>
+          <td>Data Integrity</td>
+          <td class="sev-high">HIGH</td>
+          <td><span class="pill pill-red">Confirmed</span></td>
+          <td>Player sees conflicting balances; trust erosion; potential regulatory concern</td>
+          <td>Any label using supplier games with own tracking will face same issue. Agreed workaround (hide persistent tracker for supplier games) must be documented and approved.</td>
+          <td>Agreed solution: supplier games = hide persistent progress bar (promo tab only). In-house games = full tracking. Needs formal sign-off from Joseph Senyah.</td>
+          <td>Joseph Senyah / Priyadarshi Das</td>
+          <td><span class="pill pill-amber">Pending Sign-Off</span></td>
+        </tr>
+        <tr>
+          <td>R4</td>
+          <td><strong>Compounds existing BetMGM performance concerns</strong><br><small>BetMGM already flagging performance issues. Tokenisation adds API calls to the critical game launch path.</small></td>
+          <td>Performance / Commercial</td>
+          <td class="sev-high">HIGH</td>
+          <td><span class="pill pill-amber">Medium</span></td>
+          <td>Risk of BetMGM escalating or deprioritising tokenisation if perf degrades further</td>
+          <td>BetMGM is the primary US casino partner. Perf issues here could delay or block tokenisation for the entire US gaming portfolio.</td>
+          <td>Performance impact analysis shared (Confluence link sent 30 Apr). Await BetMGM review. Prioritise perf testing in S13.</td>
+          <td>Roderick Cassar</td>
+          <td><span class="pill pill-amber">Under Review</span></td>
+        </tr>
+        <tr>
+          <td>R7</td>
+          <td><strong>GIS API not ready by end of Q3 2026</strong><br><small>GAMP In-Game team cannot complete real API integration until GIS delivers. Currently developing against mock APIs only.</small></td>
+          <td>Dependency / Schedule</td>
+          <td class="sev-high">HIGH</td>
+          <td><span class="pill pill-amber">Medium</span></td>
+          <td>GAMP Dec 2026 target slips. Full tokenisation release delayed into 2027.</td>
+          <td>Delays the entire BetMGM casino tokenisation release. Knock-on to CRM Studio, EDS, and Wallet workstreams which are tracking to the same gate.</td>
+          <td>Accelerator: 2 dedicated devs + 1–2 QA reduces GIS to 7–8 sprints. Confirm resource allocation urgently.</td>
+          <td>Rod / Simon</td>
+          <td><span class="pill pill-red">Action Required</span></td>
+        </tr>
+        <tr>
+          <td>R9</td>
+          <td><strong>Regulatory approval scope unknown</strong><br><small>Obi (Entain) raised: do gaming tokens/journeys require regulatory testing/certification in US states?</small></td>
+          <td>Regulatory / Compliance</td>
+          <td class="sev-high">HIGH</td>
+          <td><span class="pill pill-amber">Unknown</span></td>
+          <td>If certification required, could add months to delivery timeline</td>
+          <td>Affects all US state rollouts. Could block release in NJ, OH, PA, MA, MO, AZ, IA, NC simultaneously.</td>
+          <td>BetMGM (Samantha Borges / Michael Williams) to confirm regulatory scope. Escalate if no response by 9 May.</td>
+          <td>Obdulio Bacarese / BetMGM</td>
+          <td><span class="pill pill-red">Unresolved</span></td>
+        </tr>
+        <tr>
+          <td>R10</td>
+          <td><strong>18 of 23 open GAMP stories unassigned</strong><br><small>Core user journey stories (bonus selection, free spins flow, wagering completion) have no assignee.</small></td>
+          <td>Resource / Delivery</td>
+          <td class="sev-high">HIGH</td>
+          <td><span class="pill pill-red">High</span></td>
+          <td>Stories cannot progress. Dec 2026 target at risk without immediate assignment.</td>
+          <td>GAMP team velocity on tokenisation is effectively stalled on the most critical stories</td>
+          <td>Joseph Senyah to assign stories in next sprint planning. Prioritise core journey stories (GAMP-14098, 14097, 14519, 14100, 15618).</td>
+          <td>Joseph Senyah</td>
+          <td><span class="pill pill-red">Action Required</span></td>
+        </tr>
+        <tr>
+          <td>R13</td>
+          <td><strong>Upstream API slip cascades to full delivery</strong><br><small>EDS/Rewards, Wallet, and CRM Platform APIs must be deployed by end S13 before GIS backend work can begin. Any slip compresses the GIS S13–S17 window and directly delays GAMP Dec 2026 target.</small></td>
+          <td>Dependency / Schedule</td>
+          <td class="sev-high">HIGH</td>
+          <td><span class="pill pill-red">High</span></td>
+          <td>1 sprint slip in upstream APIs = 1 sprint slip in GIS deployment = 1 sprint slip in GAMP integration = Dec 2026 target becomes Jan/Feb 2027</td>
+          <td>Entire BetMGM casino tokenisation release delayed. All downstream workstreams (MUAT, Testing, Release) shift right. Phase 2.1 R2 (Universal Bonus) further delayed.</td>
+          <td>Weekly status check with EDS, Wallet, and CRM Platform teams. Escalate immediately if any team signals a slip. Consider parallel mock API development for GIS to derisk, but real integration still blocked.</td>
+          <td>Rod / Rajeshwar / Malvika</td>
+          <td><span class="pill pill-red">Active — High Priority</span></td>
+        </tr>
+        <tr>
+          <td>I1</td>
+          <td><strong>ISSUE: Higher priority initiatives blocking GIS start</strong><br><small>As of 20 Mar 2026, other higher priority initiatives are blocking tokenisation. Revised start date not yet confirmed.</small></td>
+          <td>Issue — Schedule</td>
+          <td class="sev-high">HIGH</td>
+          <td><span class="pill pill-red">Active</span></td>
+          <td>GIS has not formally started. Every week of delay compresses the S9–S15 window.</td>
+          <td>Directly delays the Integration Ready Gate (Sprint 17). All downstream workstreams (MUAT, Testing, Release) shift right.</td>
+          <td>Rod to confirm revised GIS start date. Escalate to leadership if not resolved by 9 May.</td>
+          <td>Roderick Cassar / Malvika Jain</td>
+          <td><span class="pill pill-red">Active Issue</span></td>
+        </tr>
+        <tr>
+          <td>I2</td>
+          <td><strong>ISSUE: Written BetMGM sign-off on UX trade-offs outstanding</strong><br><small>BetMGM verbally accepted game reload and balance desync trade-offs but written sign-off not received.</small></td>
+          <td>Issue — Governance</td>
+          <td class="sev-high">HIGH</td>
+          <td><span class="pill pill-red">Active</span></td>
+          <td>Without written sign-off, Entain carries full risk if BetMGM disputes UX decisions post-launch</td>
+          <td>Governance gap that could affect any future label rollout using same architecture</td>
+          <td>Rod / Rajeshwar to send formal UX trade-off document to BetMGM. Due 24 Apr (overdue). Chase immediately.</td>
+          <td>Rod / Rajeshwar</td>
+          <td><span class="pill pill-red">Overdue</span></td>
+        </tr>
+
+        <!-- MEDIUM SEVERITY RISKS -->
+        <tr>
+          <td>R5</td>
+          <td><strong>Geolocation re-check on every bonus switch</strong><br><small>US regulatory requirement. Adds 0.5–2s per switch. Subsequent relaunches may be faster (geoloc cached) but edge cases unconfirmed.</small></td>
+          <td>Regulatory / Performance</td>
+          <td class="sev-medium">MEDIUM</td>
+          <td><span class="pill pill-amber">Medium</span></td>
+          <td>Additional latency on bonus switch; regulatory non-compliance risk if skipped</td>
+          <td>US-specific but sets pattern for any regulated market tokenisation rollout</td>
+          <td>Tech teams to test and confirm geoloc caching behaviour. Document edge cases.</td>
+          <td>Prabjeet / Rajeshwar</td>
+          <td><span class="pill pill-amber">Testing Required</span></td>
+        </tr>
+        <tr>
+          <td>R6</td>
+          <td><strong>Free spins lock-in</strong><br><small>Player cannot switch bonus until free spins complete. Experience is same as today for supplier games — but needs clear player communication.</small></td>
+          <td>UX</td>
+          <td class="sev-medium">MEDIUM</td>
+          <td><span class="pill pill-green">Low</span></td>
+          <td>Player frustration if not clearly communicated; support ticket increase</td>
+          <td>Consistent with current behaviour — low portfolio risk but comms/copy needed</td>
+          <td>Excluded from BetMGM sign-off scope (agreed). Ensure UI copy is clear.</td>
+          <td>GAMP UX</td>
+          <td><span class="pill pill-green">Accepted</span></td>
+        </tr>
+        <tr>
+          <td>R8</td>
+          <td><strong>WinStudios (ESPT) rewards routing decision pending</strong><br><small>Unresolved: should rewards route via GIS or direct? Blocks technical design finalisation.</small></td>
+          <td>Architecture</td>
+          <td class="sev-medium">MEDIUM</td>
+          <td><span class="pill pill-amber">Medium</span></td>
+          <td>Incorrect routing decision could require rework mid-sprint</td>
+          <td>Sets architecture precedent for all supplier integrations in the gaming portfolio</td>
+          <td>Internal design session required: Rajeshwar, Jagan, Pradeep, Ankit. Due 24–25 Apr (overdue).</td>
+          <td>Rajeshwar / Jagan</td>
+          <td><span class="pill pill-red">Overdue</span></td>
+        </tr>
+        <tr>
+          <td>R11</td>
+          <td><strong>Player inaction timeout UX not agreed</strong><br><small>If player launches game, sees bonus widget, and takes no action — should game auto-initialise after X seconds or wait indefinitely?</small></td>
+          <td>UX / Product</td>
+          <td class="sev-medium">MEDIUM</td>
+          <td><span class="pill pill-amber">Medium</span></td>
+          <td>Poor UX if player is stuck on loading screen; potential session abandonment</td>
+          <td>Affects all tokenised game launches across BetMGM US</td>
+          <td>Decision needed from Rajeshwar / Gaming team. Document agreed behaviour and share with BetMGM.</td>
+          <td>Rajeshwar / Priyadarshi</td>
+          <td><span class="pill pill-red">Unresolved</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- DEPENDENCIES, ACTIONS, ASSUMPTIONS, DECISIONS PARTIAL -->
+
+<!-- ══════════════════════════════════════════════
+     DEPENDENCIES
+══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">Key Dependencies</div>
+  <div class="card">
+    <table>
+      <thead>
+        <tr>
+          <th>Team</th>
+          <th>What Is Needed</th>
+          <th>Needed By</th>
+          <th>Status</th>
+          <th>Blocks</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Rewards Team (EDS)</strong></td>
+          <td>API contracts for bonus retrieval; token validation APIs</td>
+          <td>S9 (Analysis)</td>
+          <td><span class="pill pill-amber">Contracts shared; review in progress</span></td>
+          <td>GIS backend API integration (S11–12)</td>
+        </tr>
+        <tr>
+          <td><strong>Wallet Team</strong></td>
+          <td>Updated contracts to accept bonus ID on bet/win calls</td>
+          <td>S11</td>
+          <td><span class="pill pill-amber">In progress</span></td>
+          <td>GIS bonus &amp; free spins changes (S11–12)</td>
+        </tr>
+        <tr>
+          <td><strong>CRM Platform (POS)</strong></td>
+          <td>Offer service APIs for Phase 2.1</td>
+          <td>S10</td>
+          <td><span class="pill pill-amber">Internal assessment in progress</span></td>
+          <td>GAMP real API integration</td>
+        </tr>
+        <tr>
+          <td><strong>In-Game Team (GAMP)</strong></td>
+          <td>EZ Nav Promos icon, Promo Drawer, progress bar UI</td>
+          <td>End Q3 2026</td>
+          <td><span class="pill pill-amber">Dev in progress (mock APIs); delivery pushed to 31 Dec 2026</span></td>
+          <td>GIS E2E integration testing (S13)</td>
+        </tr>
+        <tr>
+          <td><strong>BetMGM Product</strong></td>
+          <td>Written sign-off on UX trade-offs (reload, sync risks)</td>
+          <td>ASAP (overdue)</td>
+          <td><span class="pill pill-red">Partially confirmed; documentation needed</span></td>
+          <td>GIS dev start; governance clearance</td>
+        </tr>
+        <tr>
+          <td><strong>WinStudios (ESPT)</strong></td>
+          <td>Rewards routing decision: via GIS or direct</td>
+          <td>24–25 Apr (overdue)</td>
+          <td><span class="pill pill-red">Pending internal design session</span></td>
+          <td>GIS technical design finalisation</td>
+        </tr>
+        <tr>
+          <td><strong>BetMGM Regulatory (Samantha / Michael)</strong></td>
+          <td>Confirmation of regulatory approval scope for gaming tokens in US states</td>
+          <td>ASAP</td>
+          <td><span class="pill pill-red">Not started</span></td>
+          <td>Release planning for all US states</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     OPEN ACTIONS
+══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">Open Actions</div>
+  <div class="two-col">
+    <div class="card">
+      <div class="card-title">🔴 Overdue Actions</div>
+      <div class="action-item">
+        <div class="action-num">1</div>
+        <div class="action-text">
+          Formally document user journey concerns (game reload, geolocation, balance sync) and send to BetMGM
+          <div class="action-owner">Owner: Rod / Rajeshwar · Due: 24 Apr 2026 · <span class="pill pill-red">OVERDUE</span></div>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">3</div>
+        <div class="action-text">
+          Consolidate and submit final estimate with sprint-by-sprint breakdown to BetMGM
+          <div class="action-owner">Owner: Rod / Simon · Due: 25 Apr 2026 · <span class="pill pill-red">OVERDUE</span></div>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">4</div>
+        <div class="action-text">
+          Internal technical design session: finalise WinStudios rewards routing approach
+          <div class="action-owner">Owner: Rajeshwar, Jagan, Pradeep, Ankit · Due: 24–25 Apr 2026 · <span class="pill pill-red">OVERDUE</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">🟡 In Progress / Pending Actions</div>
+      <div class="action-item">
+        <div class="action-num">2</div>
+        <div class="action-text">
+          Produce technical sequence diagram showing all API calls for new tokenisation flow
+          <div class="action-owner">Owner: Rajeshwar · Due: End of Sprint 9 · <span class="pill pill-amber">IN PROGRESS</span></div>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">5</div>
+        <div class="action-text">
+          Balance desync design decision needed from in-game widget team. Confirm agreed solution (supplier games = hide persistent tracker) with Joseph Senyah.
+          <div class="action-owner">Owner: Joseph Senyah / Priyadarshi Das · <span class="pill pill-amber">PENDING</span></div>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">6</div>
+        <div class="action-text">
+          Assign 18 unassigned GAMP open stories. Prioritise core journey stories (GAMP-14098, 14097, 14519, 14100, 15618, 15584).
+          <div class="action-owner">Owner: Joseph Senyah · Due: Next sprint planning · <span class="pill pill-red">URGENT</span></div>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">7</div>
+        <div class="action-text">
+          Confirm regulatory approval scope for gaming tokens across US states (NJ, OH, PA, MA, MO, AZ, IA, NC)
+          <div class="action-owner">Owner: Obdulio Bacarese / BetMGM (Samantha Borges) · <span class="pill pill-red">UNRESOLVED</span></div>
+        </div>
+      </div>
+      <div class="action-item">
+        <div class="action-num">8</div>
+        <div class="action-text">
+          Confirm revised GIS start date following higher-priority initiative delays
+          <div class="action-owner">Owner: Roderick Cassar / Malvika Jain · <span class="pill pill-red">URGENT</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     ASSUMPTIONS
+══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">Assumptions</div>
+  <div class="two-col">
+    <div class="card">
+      <div class="card-title">Technical Assumptions</div>
+      <ul class="item-list">
+        <li>Wallet remains the single source of truth for balance during gameplay. GIS does not call CRM Rewards directly during a session.</li>
+        <li>Supplier-facing API contracts remain unchanged. No supplier rebuild or redeployment required.</li>
+        <li>Mobile landscape EZ Nav component will serve as the desktop version for BetMGM tokenisation (no separate desktop EZ Nav maintained by CI team).</li>
+        <li>Subsequent game relaunches (after initial launch) will be faster due to geolocation caching — to be confirmed by tech teams.</li>
+        <li>RTMS events already published by In-Game Widget will be used to update the progress bar (per Santhosh Bethapudi).</li>
+        <li>API contracts from EDS/CRM will be finalised and stable before S11 dev begins.</li>
+        <li>2 dedicated devs + 1–2 QA at 100% capacity enables 7–8 sprint delivery for GIS workstream.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">Product &amp; Commercial Assumptions</div>
+      <ul class="item-list">
+        <li>BetMGM has verbally accepted the full game reload on bonus switch. Written sign-off will be obtained before dev completes.</li>
+        <li>This project is BetMGM US only. No other region's EZ Nav is affected.</li>
+        <li>Casino development and integration testing runs Jan–end of July 2026. UAT in September/October. Production release Oct 2026 (Sprint 21).</li>
+        <li>CRM Studio offer creation is out of scope for GIS and GAMP teams — they only consume the APIs.</li>
+        <li>Free spins lock-in behaviour is consistent with current supplier game behaviour and does not require BetMGM sign-off.</li>
+        <li>All development and testing uses BetMGM-specific lower environments (QA6, QA8, QA9) only.</li>
+        <li>Phase 2.1 R2 (Universal Bonus / multi-product signposting) is a separate workstream and not in scope for this delivery.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     KEY DECISIONS
+══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">Key Decisions &amp; Design Choices</div>
+  <div class="card">
+    <table>
+      <thead>
+        <tr>
+          <th>Decision</th>
+          <th>Choice Made</th>
+          <th>Rationale</th>
+          <th>Status</th>
+          <th>Owner</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Balance display for supplier games</strong></td>
+          <td>Remove persistent progress tracker from EZ Nav top bar. Limit to Promo tab only (user must tap to see).</td>
+          <td>Supplier games have own tracking systems; showing two conflicting values creates player confusion</td>
+          <td><span class="pill pill-amber">Agreed in principle — formal sign-off pending</span></td>
+          <td>Joseph Senyah</td>
+        </tr>
+        <tr>
+          <td><strong>Balance display for in-house games</strong></td>
+          <td>Implement original designs with exposed persistent progress tracking</td>
+          <td>BetMGM owns all signposting for in-house games; no conflict risk</td>
+          <td><span class="pill pill-green">Agreed</span></td>
+          <td>BetMGM / GAMP</td>
+        </tr>
+        <tr>
+          <td><strong>Desktop EZ Nav approach</strong></td>
+          <td>Use mobile landscape EZ Nav component for desktop. CI team integrates this rather than maintaining a separate desktop version.</td>
+          <td>Avoids duplication; single component to maintain; spike confirmed feasibility</td>
+          <td><span class="pill pill-green">Decided (spike complete — GAMP-16276)</span></td>
+          <td>Joseph Senyah / Rajeshwar</td>
+        </tr>
+        <tr>
+          <td><strong>Wallet as single source of truth</strong></td>
+          <td>All rewards interaction mediated through Wallet during gameplay. GIS does not call CRM Rewards directly.</td>
+          <td>Simplifies architecture; reduces API call chain during gameplay; aligns with AI Slot Factory adapter design</td>
+          <td><span class="pill pill-green">Decided</span></td>
+          <td>Rajeshwar / Architecture</td>
+        </tr>
+        <tr>
+          <td><strong>Player inaction timeout</strong></td>
+          <td>TBC — auto-initialise after X seconds OR wait for player action</td>
+          <td>Unresolved. Gaming team position: do not initialise until player makes a choice.</td>
+          <td><span class="pill pill-red">Unresolved — decision needed</span></td>
+          <td>Rajeshwar / Priyadarshi</td>
+        </tr>
+        <tr>
+          <td><strong>WinStudios rewards routing</strong></td>
+          <td>TBC — via GIS or direct to CRM Rewards</td>
+          <td>Internal design session required</td>
+          <td><span class="pill pill-red">Unresolved — overdue</span></td>
+          <td>Rajeshwar / Jagan / Pradeep / Ankit</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     IN-GAME STORY TRACKER
+══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">In-Game (GAMP) Story Tracker — GAMP-12541</div>
+  <div class="card">
+    <div style="display:flex;gap:16px;margin-bottom:14px;flex-wrap:wrap;">
+      <div class="stat-box"><div class="stat-val" style="color:#00E676;">9</div><div class="stat-lbl">Closed</div></div>
+      <div class="stat-box"><div class="stat-val" style="color:#FF5252;">23</div><div class="stat-lbl">Open</div></div>
+      <div class="stat-box"><div class="stat-val" style="color:#FFB300;">18</div><div class="stat-lbl">Unassigned</div></div>
+      <div class="stat-box"><div class="stat-val" style="color:#CE93D8;">32</div><div class="stat-lbl">Total Stories</div></div>
+    </div>
+    <table>
+      <thead>
+        <tr><th>Jira ID</th><th>Story</th><th>Priority</th><th>Points</th><th>Assignee</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>GAMP-14878</td><td>Display Promos Icon in EZNav Bottom Navigation Bar</td><td><span class="pill pill-red">Highest</span></td><td>3</td><td>Sreenu Ganta</td><td><span class="pill pill-green">Closed</span></td></tr>
+        <tr><td>GAMP-14879</td><td>Mobile Portrait — 'My Active Promotions' Half Sheet Modal</td><td><span class="pill pill-red">Highest</span></td><td>3</td><td>Naga Sowmya</td><td><span class="pill pill-green">Closed</span></td></tr>
+        <tr><td>GAMP-14880</td><td>Implement Closing Pill Button CTA logic in EZ Nav Promos Modal</td><td><span class="pill pill-red">Highest</span></td><td>2</td><td>Naga Sowmya</td><td><span class="pill pill-green">Closed</span></td></tr>
+        <tr><td>GAMP-17471</td><td>Move 'Search Icon' from EZNav main nav into 'More' options</td><td><span class="pill pill-red">Highest</span></td><td>1</td><td>Sreenu Ganta</td><td><span class="pill pill-green">Closed</span></td></tr>
+        <tr><td>GAMP-17464</td><td>Replace Old Game Lobby Icon with New Game Lobby Icon</td><td><span class="pill pill-red">Highest</span></td><td>2</td><td>Sreenu Ganta</td><td><span class="pill pill-green">Closed</span></td></tr>
+        <tr><td>GAMP-16276</td><td>Spike: Multi-device EZNav component (mobile + desktop)</td><td><span class="pill pill-red">Highest</span></td><td>3</td><td>Pranav Solanki</td><td><span class="pill pill-green">Closed</span></td></tr>
+        <tr><td>GAMP-15043</td><td>Display notifications circle on promos icon (first-time alert)</td><td><span class="pill pill-amber">High</span></td><td>2</td><td>Sreenu Ganta</td><td><span class="pill pill-green">Closed</span></td></tr>
+        <tr><td>GAMP-14869</td><td>Display Days Left Clock and Text Field</td><td><span class="pill pill-amber">High</span></td><td>1</td><td>Sreenu Ganta</td><td><span class="pill pill-green">Closed</span></td></tr>
+        <tr><td>GAMP-14867</td><td>EZ NAV — Display Icon Left of 'Bonus Type' Header Field</td><td><span class="pill pill-amber">High</span></td><td>2</td><td>Sreenu Ganta</td><td><span class="pill pill-green">Closed</span></td></tr>
+        <tr style="background:#2A1E00;"><td>GAMP-18340</td><td>End-to-End Testing — Mobile Portrait &amp; Landscape (BetMGM US)</td><td><span class="pill pill-grey">Medium</span></td><td>5</td><td>Sreenu Ganta</td><td><span class="pill pill-blue">Open</span></td></tr>
+        <tr style="background:#2A0A0A;"><td>GAMP-15584</td><td>Display Game Loading Screen after 'Play Now' CTA</td><td><span class="pill pill-red">Highest</span></td><td>3</td><td><span style="color:#FF5252;font-weight:600;">Unassigned</span></td><td><span class="pill pill-red">Open — Unassigned</span></td></tr>
+        <tr style="background:#2A0A0A;"><td>GAMP-14098</td><td>Core Journey — Display available promotions &amp; allow selection</td><td><span class="pill pill-grey">Medium</span></td><td>—</td><td><span style="color:#FF5252;font-weight:600;">Unassigned</span></td><td><span class="pill pill-red">Open — Unassigned</span></td></tr>
+        <tr style="background:#2A0A0A;"><td>GAMP-14097</td><td>Core Journey — Accept and apply Free Spins Promotion</td><td><span class="pill pill-grey">Medium</span></td><td>—</td><td><span style="color:#FF5252;font-weight:600;">Unassigned</span></td><td><span class="pill pill-red">Open — Unassigned</span></td></tr>
+        <tr style="background:#2A0A0A;"><td>GAMP-14519</td><td>Core Journey — Show Free Spins &amp; Wagering Requirement progression</td><td><span class="pill pill-grey">Medium</span></td><td>—</td><td><span style="color:#FF5252;font-weight:600;">Unassigned</span></td><td><span class="pill pill-red">Open — Unassigned</span></td></tr>
+        <tr style="background:#2A0A0A;"><td>GAMP-14100</td><td>Core Journey — Show Bonus/Wagering Requirement Completion</td><td><span class="pill pill-grey">Medium</span></td><td>—</td><td><span style="color:#FF5252;font-weight:600;">Unassigned</span></td><td><span class="pill pill-red">Open — Unassigned</span></td></tr>
+        <tr style="background:#2A0A0A;"><td>GAMP-15618</td><td>Reload game in free spins mode when Apply Spins CTA pressed</td><td><span class="pill pill-amber">High</span></td><td>—</td><td><span style="color:#FF5252;font-weight:600;">Unassigned</span></td><td><span class="pill pill-red">Open — Unassigned</span></td></tr>
+        <tr style="background:#2A0A0A;"><td>GAMP-15622</td><td>Remove promo from user session when Remove CTA clicked</td><td><span class="pill pill-amber">High</span></td><td>—</td><td><span style="color:#FF5252;font-weight:600;">Unassigned</span></td><td><span class="pill pill-red">Open — Unassigned</span></td></tr>
+        <tr style="background:#2A0A0A;"><td>GAMP-15623</td><td>Inform user they will continue in Real Money Mode after bonus completion</td><td><span class="pill pill-amber">High</span></td><td>—</td><td><span style="color:#FF5252;font-weight:600;">Unassigned</span></td><td><span class="pill pill-red">Open — Unassigned</span></td></tr>
+        <tr style="background:#2A1E00;"><td>GAMP-14866</td><td>Mobile Portrait — Display Formatted Configurable Text Fields in EZ Nav</td><td><span class="pill pill-amber">High</span></td><td>5</td><td><span style="color:#FF5252;font-weight:600;">Unassigned</span></td><td><span class="pill pill-red">Open — Unassigned</span></td></tr>
+        <tr style="background:#2A1E00;"><td>GAMP-18946</td><td>Mobile Landscape — 'My Active Promotions' Half Sheet Modal</td><td><span class="pill pill-amber">High</span></td><td>3</td><td>Naga Sowmya</td><td><span class="pill pill-blue">Open</span></td></tr>
+        <tr style="background:#2A1E00;"><td>GAMP-18947</td><td>Mobile Landscape — Display Formatted Configurable Text Fields</td><td><span class="pill pill-amber">High</span></td><td>5</td><td><span style="color:#FF5252;font-weight:600;">Unassigned</span></td><td><span class="pill pill-red">Open — Unassigned</span></td></tr>
+        <tr style="background:#2A0A0A;"><td>GAMP-14865</td><td>View more / View less CTA links in Available Promotions</td><td><span class="pill pill-amber">High</span></td><td>—</td><td><span style="color:#FF5252;font-weight:600;">Unassigned</span></td><td><span class="pill pill-red">Open — Unassigned</span></td></tr>
+        <tr style="background:#2A0A0A;"><td>GAMP-15050</td><td>Dynamic Progress Bar for EZ Nav Bottom Navigation Widget</td><td><span class="pill pill-amber">High</span></td><td>—</td><td><span style="color:#FF5252;font-weight:600;">Unassigned</span></td><td><span class="pill pill-red">Open — Unassigned</span></td></tr>
+        <tr style="background:#2A0A0A;"><td>GAMP-14898</td><td>Always display One Line Bonus Progress Bar above EZNav once bonus active</td><td><span class="pill pill-amber">High</span></td><td>—</td><td><span style="color:#FF5252;font-weight:600;">Unassigned</span></td><td><span class="pill pill-red">Open — Unassigned</span></td></tr>
+        <tr style="background:#2A0A0A;"><td>GAMP-15619</td><td>Display Bonus Spins Completion Message</td><td><span class="pill pill-amber">High</span></td><td>—</td><td><span style="color:#FF5252;font-weight:600;">Unassigned</span></td><td><span class="pill pill-red">Open — Unassigned</span></td></tr>
+        <tr style="background:#2A0A0A;"><td>GAMP-15620</td><td>Display Wagering Requirement Completion Message</td><td><span class="pill pill-amber">High</span></td><td>—</td><td><span style="color:#FF5252;font-weight:600;">Unassigned</span></td><td><span class="pill pill-red">Open — Unassigned</span></td></tr>
+        <tr style="background:#2A0A0A;"><td>GAMP-15621</td><td>Grey out unavailable Promos when one is already active</td><td><span class="pill pill-amber">High</span></td><td>—</td><td><span style="color:#FF5252;font-weight:600;">Unassigned</span></td><td><span class="pill pill-red">Open — Unassigned</span></td></tr>
+        <tr style="background:#2A1E00;"><td>GAMP-15410</td><td>Demo and UAT for Tokenization Phase 2 — Casino</td><td><span class="pill pill-grey">Medium</span></td><td>—</td><td><span style="color:#FF5252;font-weight:600;">Unassigned</span></td><td><span class="pill pill-red">Open — Unassigned</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     PORTFOLIO IMPACT SUMMARY
+══════════════════════════════════════════════ -->
+<div class="section">
+  <div class="section-title">Gaming Portfolio Impact Summary</div>
+  <div class="three-col">
+    <div class="card">
+      <div class="card-title">🏦 Architecture Precedent</div>
+      <ul class="item-list">
+        <li>Wallet-as-single-source-of-truth pattern will be adopted across all future tokenised labels</li>
+        <li>Supplier contract stability principle mirrors AI Slot Factory adapter versioning (Phase 6–7)</li>
+        <li>GIS API contracts (bonus ID passing, wallet integration) define the Bonus_Engine_Adapter and Wallet_Adapter interfaces for AI Slot Factory</li>
+        <li>Desktop EZ Nav via mobile landscape component sets a shared-component precedent for all future multi-device work</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">⚠ Delivery Risk to Portfolio</div>
+      <ul class="item-list">
+        <li>GIS delay pushes Integration Ready Gate (S17) right — all downstream workstreams (MUAT, Testing, Release) shift accordingly</li>
+        <li>Regulatory approval uncertainty could simultaneously block release across all 8 US states</li>
+        <li>Performance degradation at BetMGM could trigger a wider review of tokenisation rollout to other labels</li>
+        <li>Phase 2.1 R2 (Universal Bonus) is already planning-blocked — further delays to 2.1 will compound this</li>
+        <li>Sports tokenisation is also in analysis/pending state — casino delays may affect shared platform team capacity</li>
+      </ul>
+    </div>
+    <div class="card">
+      <div class="card-title">✅ Positive Portfolio Signals</div>
+      <ul class="item-list">
+        <li>9 GAMP stories already closed — EZ Nav foundation is solid</li>
+        <li>Desktop/mobile shared component spike complete (GAMP-16276) — reduces future duplication</li>
+        <li>API contracts shared by EDS/CRM — review in progress, no blocking gaps yet</li>
+        <li>BetMGM verbal acceptance of key UX trade-offs reduces rework risk</li>
+        <li>RTMS event infrastructure already in place for progress bar updates</li>
+        <li>Accelerator path identified: 2 devs + 1–2 QA = 7–8 sprint delivery for GIS</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════════ -->
+<div class="footer">
+  <span>Entain Gaming</span> · Tokenisation Phase 2.1 Project Dashboard · BetMGM US ·
+  Generated: 1 May 2026 · Sources: CI Tokenisation Project Summary (Confluence) · GAMP-12541 · Casino Journey Sync email chain · Sprint estimate doc ·
+  <span>Confidential — Internal Use Only</span>
+</div>
+
+</div><!-- end .main -->
+</body>
+</html>
+
+
