@@ -452,7 +452,7 @@
         <tr><td><strong>Target Release</strong></td><td><strong>Oct 2026 (Sprint 21)</strong> — conditional on GIS APIs delivered by end of Q2 / early Jul 2026. GAMP needs a full quarter post-API to complete integration, testing and UAT.</td></tr>
         <tr><td><strong>Blocker</strong></td><td>GIS team must deliver completed API by end of Q2 / early Jul 2026. GAMP cannot complete real API integration until GIS delivers. Currently developing against mock APIs only. 2 dedicated devs + 1–2 QA required to meet Oct target.</td></tr>
         <tr><td><strong>Environments</strong></td><td>QA6, QA8, QA9 (BetMGM US only). NJ Casino: qa6.www.nj.betmgm.com</td></tr>
-        <tr><td><strong>Owner EM</strong></td><td>Joseph Senyah</td></tr>
+        <tr><td><strong>Owner PM</strong></td><td>Joseph Senyah</td></tr>
         <tr><td><strong>Reporter</strong></td><td>Andrew Lowery</td></tr>
         <tr><td><strong>Epic</strong></td><td>GAMP-12541 · T-Shirt: L · RICE Score: 54</td></tr>
       </table>
@@ -1033,6 +1033,14 @@
   <div class="two-col">
     <div class="card">
       <div class="card-title">🔴 Overdue Actions</div>
+      <div class="action-item" style="border-left:3px solid #FF5252;padding-left:10px;background:rgba(255,82,82,0.05);border-radius:4px;">
+        <div class="action-num" style="background:#FF5252;">!</div>
+        <div class="action-text">
+          <strong style="color:#FF5252;">🚨 HIGHEST PRIORITY — Technical Review Session: Game Launch Latency (+2–5s)</strong><br>
+          Convene GIS, GAMP and BetMGM to formally review the performance impact of the additional CRM Rewards API call on every game launch. Agree and document the mitigation approach (async pre-fetch, bonus eligibility caching, timeout fallback to launch without widget). Output: signed-off technical decision before S9 dev begins. BetMGM already flagging performance concerns — this must be resolved before dev starts.
+          <div class="action-owner">Owner: <strong>Tom Quinn</strong> (Gaming Engineering Director) · Rajeshwar Puppireddy · Roderick Cassar · <strong>Priyadarshi Das</strong> (Player Experience — solution driving the latency review) · Due: <span class="pill pill-red">Before S9 dev start</span></div>
+        </div>
+      </div>
       <div class="action-item">
         <div class="action-num">1</div>
         <div class="action-text">
@@ -1528,6 +1536,18 @@
       <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#0A1F3D;color:#82B1FF;border:1px solid #448AFF;">Prioritized</span></td>
       <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#3D2800;color:#FFB300;border:1px solid #FF8F00;">High</span></td>
       
+    </tr><tr>
+      <td style="white-space:nowrap;"><a href="https://jira-enterprise.corp.entaingroup.com/browse/GAMP-599" style="color:#bf00ff;">GAMP-599</a></td>
+      <td><strong style="font-size:12px;">SBJ Jackpot System (MI — Michigan)</strong><br><small style="color:#888;">Calvin Kent</small></td>
+      <td style="font-size:11px;color:#aaa;">Sidebet Jackpot system for Michigan. In progress.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#0A1F3D;color:#82B1FF;border:1px solid #448AFF;">Implementation</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#1A2228;color:#90A4AE;border:1px solid #546E7A;">Medium</span></td>
+    </tr><tr>
+      <td style="white-space:nowrap;">—</td>
+      <td><strong style="font-size:12px;">SBJ — Austria</strong><br><small style="color:#888;">Calvin Kent</small></td>
+      <td style="font-size:11px;color:#aaa;">Sidebet Jackpot rollout to Austria market. Not yet started — no Jira epic created.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#1A2228;color:#90A4AE;border:1px solid #546E7A;">Not Started</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#1A2228;color:#90A4AE;border:1px solid #546E7A;">—</span></td>
     </tr></tbody>
     </table>
   </div><div class="card" style="margin-bottom:16px;border-top:4px solid #FFB300;">
@@ -1548,6 +1568,13 @@
       <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#0A1F3D;color:#82B1FF;border:1px solid #448AFF;">Implementation</span></td>
       <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#1A2228;color:#90A4AE;border:1px solid #546E7A;">Medium</span></td>
       
+    </tr><tr>
+      <td style="white-space:nowrap;">—</td>
+      <td><strong style="font-size:12px;">Casino 2.0 — Game Management Console</strong><br><small style="color:#888;">Shubhangee Nath</small></td>
+      <td style="font-size:11px;color:#aaa;">Game Management Console for Casino 2.0. In discovery — no Jira epic created yet.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:rgba(191,0,255,0.12);color:#d966ff;border:1px solid rgba(191,0,255,0.3);">Discovery</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#1A2228;color:#90A4AE;border:1px solid #546E7A;">—</span></td>
+      
     </tr></tbody>
     </table>
   </div><div class="card" style="margin-bottom:16px;border-top:4px solid #546E7A;">
@@ -1567,6 +1594,13 @@
       <td style="font-size:11px;color:#aaa;">New Casino 2.0 features for Lobby Management. Unassigned — requires squad allocation.</td>
       <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#0A1F3D;color:#82B1FF;border:1px solid #448AFF;">Implementation</span></td>
       <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#1A2228;color:#90A4AE;border:1px solid #546E7A;">Unprioritised</span></td>
+      
+    </tr><tr>
+      <td style="white-space:nowrap;">—</td>
+      <td><strong style="font-size:12px;">Casino 2.0 — Game Management Console</strong><br><small style="color:#888;">Unassigned</small></td>
+      <td style="font-size:11px;color:#aaa;">Game Management Console for Casino 2.0. In discovery — no Jira epic created yet. Requires squad allocation.</td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:rgba(191,0,255,0.12);color:#d966ff;border:1px solid rgba(191,0,255,0.3);">Discovery</span></td>
+      <td><span style="display:inline-block;padding:2px 9px;border-radius:100px;font-size:10px;font-weight:700;text-transform:uppercase;background:#1A2228;color:#90A4AE;border:1px solid #546E7A;">—</span></td>
       
     </tr></tbody>
     </table>
