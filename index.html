@@ -348,7 +348,7 @@
     </div>
     <div style="text-align:right;flex-shrink:0;">
       <span class="entain-badge entain-badge--staging" style="background:#ca5010;font-size:12px;padding:6px 16px;margin-bottom:8px;display:inline-block;">⚠ AT RISK</span>
-      <p style="color:#aaa;font-size:12px;margin:4px 0 0;">Target Release: <strong style="color:#bf00ff;font-size:14px;">Oct 2026 (Sprint 21)</strong><br><span style="font-size:10px;color:#888;">GIS API needed by end Q2 / early Jul 2026</span></p>
+      <p style="color:#aaa;font-size:12px;margin:4px 0 0;">Target Release: <strong style="color:#bf00ff;font-size:14px;">Oct 2026 (Sprint 21)</strong><br><span style="font-size:10px;color:#888;">Upstream APIs needed by end Q2 · GIS API by end Q3</span></p>
     </div>
   </div>
 </div>
@@ -362,7 +362,7 @@
   <div class="tab" onclick="showTab('risks')">Risks &amp; Issues</div>
   <div class="tab" onclick="showTab('dependencies')">Dependencies</div>
   <div class="tab" onclick="showTab('actions')">Actions</div>
-  <div class="tab" onclick="showTab('competing')" style="color:var(--entain-pink);">⚡ Competing Priorities</div>
+  <div class="tab" onclick="showTab('competing')" style="color:var(--entain-pink);">⚡ GAMP Competing Priorities</div>
 </div>
 
 <div class="main">
@@ -449,8 +449,8 @@
         <tr><td><strong>Status</strong></td><td><span class="pill pill-amber">Dev in progress (mock APIs)</span></td></tr>
         <tr><td><strong>Scope</strong></td><td>Promos icon (replaces Search) · Half-sheet modal · Progress bar · Bonus acceptance &amp; free spins flow · Game reload on apply · Wagering completion messages · Grey-out unavailable promos · One-line bonus progress bar above EZ Nav</td></tr>
         <tr><td><strong>Progress</strong></td><td>9 of 32 stories closed (28%). UI component development underway against mock APIs. 18 of 23 open stories currently unassigned — requires immediate sprint planning action.</td></tr>
-        <tr><td><strong>Target Release</strong></td><td><strong>Oct 2026 (Sprint 21)</strong> — conditional on GIS APIs delivered by end of Q2 / early Jul 2026. GAMP needs a full quarter post-API to complete integration, testing and UAT.</td></tr>
-        <tr><td><strong>Blocker</strong></td><td>GIS team must deliver completed API by end of Q2 / early Jul 2026. GAMP cannot complete real API integration until GIS delivers. Currently developing against mock APIs only. 2 dedicated devs + 1–2 QA required to meet Oct target.</td></tr>
+        <tr><td><strong>Target Release</strong></td><td><strong>Oct 2026 (Sprint 21)</strong> — conditional on upstream APIs (EDS/Wallet/CRM) by end Q2, GIS API deployed by end Q3 (S17). GAMP needs a full quarter post-GIS-API to complete integration, testing and UAT.</td></tr>
+        <tr><td><strong>Blocker</strong></td><td>Upstream APIs (EDS/Rewards, Wallet, CRM Platform) must deploy by end Q2 / early Jul 2026 to unblock GIS. GIS must then deliver completed API by end Q3 (S17) to unblock GAMP real integration. GAMP cannot complete real API integration until GIS delivers. Currently developing against mock APIs only. 2 dedicated devs + 1–2 QA required to meet Oct target.</td></tr>
         <tr><td><strong>Environments</strong></td><td>QA6, QA8, QA9 (BetMGM US only). NJ Casino: qa6.www.nj.betmgm.com</td></tr>
         <tr><td><strong>Owner PM</strong></td><td>Joseph Senyah</td></tr>
         <tr><td><strong>Reporter</strong></td><td>Andrew Lowery</td></tr>
@@ -479,7 +479,7 @@
         <td>Gaming Tokens — Deposit &amp; Get offers (BetMGM)</td>
         <td>CRM / EDS / GIS / GAMP</td>
         <td><span class="pill pill-blue">Dev in Progress</span></td>
-        <td>Oct 2026 (Sprint 21) — conditional on GIS API by end Q2</td>
+        <td>Oct 2026 (Sprint 21) — upstream APIs by end Q2, GIS API by end Q3</td>
       </tr>
       <tr>
         <td><strong>Phase 2.1 R2</strong></td>
@@ -500,7 +500,7 @@
         <td>EZ Nav Promos icon, Promo Drawer, progress bar (BetMGM mobile + desktop)</td>
         <td>GAMP Lobby Experience</td>
         <td><span class="pill pill-amber">Dev (mock APIs)</span></td>
-        <td>Oct 2026 (Sprint 21) — conditional on GIS API by end Q2</td>
+        <td>Oct 2026 (Sprint 21) — upstream APIs by end Q2, GIS API by end Q3</td>
       </tr>
     </table>
   </div>
@@ -796,7 +796,7 @@
           <td>Player loses immersion; mid-session interruption; potential session abandonment</td>
           <td>If adopted by other labels, full reload pattern becomes standard — significant NPS risk across portfolio</td>
           <td>BetMGM verbal acceptance obtained. <strong>Written sign-off still required.</strong> Document UX trade-off formally.</td>
-          <td>Rod / Rajeshwar</td>
+          <td>Roderick Cassar / Rajeshwar</td>
           <td><span class="pill pill-red">Action Required</span></td>
         </tr>
         <tr>
@@ -829,10 +829,10 @@
           <td>Dependency / Schedule</td>
           <td class="sev-high">HIGH</td>
           <td><span class="pill pill-amber">Medium</span></td>
-          <td>GAMP Dec 2026 target slips. Full tokenisation release delayed into 2027.</td>
+          <td>GAMP Oct 2026 target slips. Full tokenisation release delayed to Dec 2026 or beyond.</td>
           <td>Delays the entire BetMGM casino tokenisation release. Knock-on to CRM Studio, EDS, and Wallet workstreams which are tracking to the same gate.</td>
           <td>Accelerator: 2 dedicated devs + 1–2 QA reduces GIS to 7–8 sprints. Confirm resource allocation urgently.</td>
-          <td>Rod / Simon</td>
+          <td>Roderick Cassar / Simon Browning</td>
           <td><span class="pill pill-red">Action Required</span></td>
         </tr>
         <tr>
@@ -861,14 +861,14 @@
         </tr>
         <tr>
           <td>R13</td>
-          <td><strong>Upstream API slip cascades to full delivery</strong><br><small>EDS/Rewards, Wallet, and CRM Platform APIs must be deployed by end S13 before GIS backend work can begin. Any slip compresses the GIS S13–S17 window and directly delays GAMP Dec 2026 target.</small></td>
+          <td><strong>Upstream API slip cascades to full delivery</strong><br><small>EDS/Rewards, Wallet, and CRM Platform APIs must be deployed by end S13 before GIS backend work can begin. Any slip compresses the GIS S13–S17 window and directly delays GAMP Oct 2026 target.</small></td>
           <td>Dependency / Schedule</td>
           <td class="sev-high">HIGH</td>
           <td><span class="pill pill-red">High</span></td>
-          <td>1 sprint slip in upstream APIs = 1 sprint slip in GIS deployment = 1 sprint slip in GAMP integration = Dec 2026 target becomes Jan/Feb 2027</td>
+          <td>1 sprint slip in upstream APIs = 1 sprint slip in GIS deployment = 1 sprint slip in GAMP integration = Oct 2026 target becomes Dec 2026 or later</td>
           <td>Entire BetMGM casino tokenisation release delayed. All downstream workstreams (MUAT, Testing, Release) shift right. Phase 2.1 R2 (Universal Bonus) further delayed.</td>
           <td>Weekly status check with EDS, Wallet, and CRM Platform teams. Escalate immediately if any team signals a slip. Consider parallel mock API development for GIS to derisk, but real integration still blocked.</td>
-          <td>Rod / Rajeshwar / Malvika</td>
+          <td>Roderick Cassar / Rajeshwar / Malvika</td>
           <td><span class="pill pill-red">Active — High Priority</span></td>
         </tr>
         <tr>
@@ -879,7 +879,7 @@
           <td><span class="pill pill-red">Active</span></td>
           <td>GIS has not formally started. Every week of delay compresses the S9–S15 window.</td>
           <td>Directly delays the Integration Ready Gate (Sprint 17). All downstream workstreams (MUAT, Testing, Release) shift right.</td>
-          <td>Rod to confirm revised GIS start date. Escalate to leadership if not resolved by 9 May.</td>
+          <td>Roderick Cassar to confirm revised GIS start date. Escalate to leadership if not resolved by 9 May.</td>
           <td>Roderick Cassar / Malvika Jain</td>
           <td><span class="pill pill-red">Active Issue</span></td>
         </tr>
@@ -891,8 +891,8 @@
           <td><span class="pill pill-red">Active</span></td>
           <td>Without written sign-off, Entain carries full risk if BetMGM disputes UX decisions post-launch</td>
           <td>Governance gap that could affect any future label rollout using same architecture</td>
-          <td>Rod / Rajeshwar to send formal UX trade-off document to BetMGM. Due 24 Apr (overdue). Chase immediately.</td>
-          <td>Rod / Rajeshwar</td>
+          <td>Roderick Cassar / Rajeshwar to send formal UX trade-off document to BetMGM. Due 24 Apr (overdue). Chase immediately.</td>
+          <td>Roderick Cassar / Rajeshwar</td>
           <td><span class="pill pill-red">Overdue</span></td>
         </tr>
 
@@ -994,7 +994,7 @@
           <td><strong>In-Game Team (GAMP)</strong></td>
           <td>EZ Nav Promos icon, Promo Drawer, progress bar UI</td>
           <td>End Q3 2026</td>
-          <td><span class="pill pill-amber">Dev in progress (mock APIs); delivery pushed to Oct 2026 (Sprint 21)</span></td>
+          <td><span class="pill pill-amber">Dev in progress (mock APIs). Blocked on GIS API (end Q3). GIS blocked on upstream APIs (end Q2). Delivery target: Oct 2026 (Sprint 21)</span></td>
           <td>GIS E2E integration testing (S13)</td>
         </tr>
         <tr>
@@ -1045,14 +1045,14 @@
         <div class="action-num">1</div>
         <div class="action-text">
           Formally document user journey concerns (game reload, geolocation, balance sync) and send to BetMGM
-          <div class="action-owner">Owner: Rod / Rajeshwar · Due: 24 Apr 2026 · <span class="pill pill-red">OVERDUE</span></div>
+          <div class="action-owner">Owner: Roderick Cassar / Rajeshwar · Due: 24 Apr 2026 · <span class="pill pill-red">OVERDUE</span></div>
         </div>
       </div>
       <div class="action-item">
         <div class="action-num">3</div>
         <div class="action-text">
           Consolidate and submit final estimate with sprint-by-sprint breakdown to BetMGM
-          <div class="action-owner">Owner: Rod / Simon · Due: 25 Apr 2026 · <span class="pill pill-red">OVERDUE</span></div>
+          <div class="action-owner">Owner: Roderick Cassar / Simon Browning · Due: 25 Apr 2026 · <span class="pill pill-red">OVERDUE</span></div>
         </div>
       </div>
       <div class="action-item">
@@ -1178,7 +1178,7 @@
         <tr>
           <td><strong>Wallet as single source of truth</strong></td>
           <td>All rewards interaction mediated through Wallet during gameplay. GIS does not call CRM Rewards directly.</td>
-          <td>Simplifies architecture; reduces API call chain during gameplay; aligns with AI Slot Factory adapter design</td>
+          <td>Simplifies architecture; reduces API call chain during gameplay</td>
           <td><span class="pill pill-green">Decided</span></td>
           <td>Rajeshwar / Architecture</td>
         </tr>
@@ -1261,8 +1261,8 @@
       <div class="card-title">🏦 Architecture Precedent</div>
       <ul class="item-list">
         <li>Wallet-as-single-source-of-truth pattern will be adopted across all future tokenised labels</li>
-        <li>Supplier contract stability principle mirrors AI Slot Factory adapter versioning (Phase 6–7)</li>
-        <li>GIS API contracts (bonus ID passing, wallet integration) define the Bonus_Engine_Adapter and Wallet_Adapter interfaces for AI Slot Factory</li>
+        
+        
         <li>Desktop EZ Nav via mobile landscape component sets a shared-component precedent for all future multi-device work</li>
       </ul>
     </div>
